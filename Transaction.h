@@ -2,6 +2,7 @@
 #include <iostream>
 #include <cctype>
 #include <set>
+#include "Movie.h"
 
 using namespace std;
 
