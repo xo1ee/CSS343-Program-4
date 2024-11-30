@@ -1,27 +1,13 @@
 #include "Movie.h"
 
-Movie::Movie() : genre('-'), stock(0), director("Anonymous"), title("Untitled"), releaseYear("0000") {}
+Movie::Movie() : genre('-'), stock(0), mediaType('D'), director(""), title(""), releaseYear("") {}
 
 Movie::Movie(int stock, string director, string title, string releaseYear) : stock(stock), genre('-'),
+                                                                             mediaType('D'),
                                                                              director(director),
                                                                              title(title),
                                                                              releaseYear(releaseYear) {}
 Movie::~Movie() {}
-
-// -------------------------------------Movie::toLowerString------------------------------------
-// Description
-// toLowerString: changes a string to be lowercased
-// preconditions: string may not contain all alphabetical characters
-// postconditions: returns a copy of the input string that is lowercased
-// ---------------------------------------------------------------------------------------------
-string Movie::toLowerString(const string &str) const
-{
-    string toBeLowered = str;
-    transform(toBeLowered.begin(), toBeLowered.end(),
-              toBeLowered.begin(), [](unsigned char c)
-              { return tolower(c); });
-    return toBeLowered;
-}
 
 // ---------------------------------------Movie::hasStock--------------------------------------
 // Description
@@ -68,12 +54,18 @@ void Movie::removeStock()
 
 // ---------------------------------------Movie::printData--------------------------------------
 // Description
-// printData: prints Movie data
+// printData: prints Movie data in form: Genre, Media Type, Title, Director, Release year,
+//            Stock
 // preconditions: Movie is correctly instatiated
 // postconditions: makes no changes to Movie
 // ---------------------------------------------------------------------------------------------
 void Movie::printData() const
 {
-    cout << genre << " " << stock << " " << director << " "
-         << title << " " << releaseYear << endl;
+    cout << left << setw(6) << genre
+         << setw(8) << mediaType
+         << setw(35) << title
+         << setw(20) << director
+         << setw(6) << releaseYear
+         << stock
+         << endl;
 }
