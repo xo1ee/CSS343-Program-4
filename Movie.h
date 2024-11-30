@@ -1,25 +1,25 @@
 #pragma once
 #include <iostream>
+#include <algorithm>
+#include <cctype>
 #include <string>
 
 using namespace std;
 
 class Movie
 {
-private:
-    const char genre;
-
 protected:
     int stock;
-    const string director;
-    const string title;
-    const string releaseYear;
 
 public:
     Movie(); // default attribute values: stock = '-', director = "Director" ,
              // title = "Title", releaseYear = "0000"
 
+    Movie(int, string, string, string);
+
     virtual ~Movie();
+
+    string toLowerString(const string &) const; // lower-cases a string
 
     bool hasStock() const; // checks if movie has stock
 
@@ -27,7 +27,7 @@ public:
 
     void removeStock(); // removes from movie stock
 
-    virtual void printData() const = 0; // prints movie data: Genre, Stock, Director, Title, Release year
+    virtual void printData() const; // prints movie data: Genre, Stock, Director, Title, Release year
 
     /// abstract function version
     /// @brief compares Movie data to order
@@ -40,4 +40,9 @@ public:
     /// @param reference to other Movie
     /// @return true if the other Movie is the same, false if it is different
     virtual bool operator==(const Movie &) const = 0;
+
+    const char genre; // set to '-'
+    const string director;
+    const string title;
+    const string releaseYear;
 };
