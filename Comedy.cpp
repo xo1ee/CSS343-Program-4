@@ -1,11 +1,40 @@
+// ---------------------------------------------------- Comedy .h -----------------------------------------------------
+// Phohanh Tran CSS343 Section A
+// Creation Date: 11/29/2024
+// Date of Last Modification: 12/1/2024
+// --------------------------------------------------------------------------------------------------------------------
+// Purpose - defines implementation for the functions and attributes used by the Comedy parent class
+// --------------------------------------------------------------------------------------------------------------------
+// No special specifications, special algorithms, and assumptions. 
+// --------------------------------------------------------------------------------------------------------------------
 #include "Comedy.h"
 
-Comedy::Comedy() : Movie() {}
+// --------------------------------------Comedy::Comedy()--------------------------------------
+// Description
+// default constructor: sets Comedy values as default
+// preconditions: Movie class and parameterized constructor is defined correctly
+// postconditions: constructs a Comedy object with all default values and a Movie parent
+//                 with genre 'F'
+// --------------------------------------------------------------------------------------------
+Comedy::Comedy() : Movie('F') {}
 
+// --------------------------Comedy::Comedy(int, string, string, int)--------------------------
+// Description
+// paramaterized constructor: sets Comedy genre, stock, director, title, and releaseYear
+//                            to input values
+// preconditions: input are valid, Movie parameterized constructor is defined correctly
+// postconditions: constructs a Comedy object and Movie parent with passed in values
+// --------------------------------------------------------------------------------------------
 Comedy::Comedy(int stock, string director,
                string title, int releaseYear) : Movie('F', stock, director,
                                                       title, releaseYear) {}
 
+// ---------------------------------------Comedy::~Comedy--------------------------------------
+// Description
+// destructor: destructs DrComedyama object
+// preconditions: Comedy class does not initialize memory
+// postconditions: destructs Comedy object
+// --------------------------------------------------------------------------------------------
 Comedy::~Comedy() {}
 
 // --------------------------------------Comedy::operaor<--------------------------------------

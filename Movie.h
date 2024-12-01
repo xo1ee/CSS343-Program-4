@@ -1,3 +1,12 @@
+// ----------------------------------------------------- Movie.h ------------------------------------------------------
+// Phohanh Tran CSS343 Section A
+// Creation Date: 11/29/2024
+// Date of Last Modification: 12/1/2024
+// --------------------------------------------------------------------------------------------------------------------
+// Purpose - defines the functions and attributes used by the Movie parent class
+// --------------------------------------------------------------------------------------------------------------------
+// No special specifications, special algorithms, and assumptions.
+// --------------------------------------------------------------------------------------------------------------------
 #pragma once
 #include <iostream>
 #include <algorithm>
@@ -13,14 +22,23 @@ protected:
     int stock;
 
 public:
-    Movie(); // default attribute values: stock = '-', director = "" ,
-             // title = "", releaseYear = 0
+    // default attribute values: mediaType = 'D',
+    // genre = '-', stock = 0, director = "" ,
+    // title = "", releaseYear = 0
+    Movie();
 
-    Movie(char, int, string, string, int);  // input genre, stock, director, title, release year
+    // default attribute values: mediaType = 'D', stock = 0, director = "" ,
+    // title = "", releaseYear = 0
+    // sets genre value as input
+    Movie(char);
+
+    // default attribute values: mediaType = 'D'
+    // set genre, stock, director, title, releaseYear, release year as input
+    Movie(char, int, string, string, int);
 
     string toLowerString(const string) const; // lower-cases a string
 
-    virtual ~Movie();
+    virtual ~Movie(); // default destructor, virtual for subclasses with different implmenetations
 
     bool hasStock() const; // checks if movie has stock
 
@@ -43,7 +61,7 @@ public:
     /// @return true if the other Movie is the same, false if it is different
     virtual bool operator==(const Movie &) const = 0;
 
-    const char genre;     // set to '-'
+    const char genre;     // set to '-', unless parameterized constructor used
     const char mediaType; // set to 'D' for all Movie classes
     const string director;
     const string title;

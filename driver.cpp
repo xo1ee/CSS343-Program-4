@@ -429,7 +429,6 @@ int main()
         cout << "Movie::operator== works:" << endl;
 
     // MovieFactory method tests
-
     if (test_createMovie())
         cout << "MovieFactory::createMovie works" << endl;
 

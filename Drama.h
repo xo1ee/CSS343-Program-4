@@ -1,3 +1,12 @@
+// ----------------------------------------------------- Drama.h ------------------------------------------------------
+// Phohanh Tran CSS343 Section A
+// Creation Date: 11/29/2024
+// Date of Last Modification: 12/1/2024
+// --------------------------------------------------------------------------------------------------------------------
+// Purpose - defines the functions and attributes used by the Drama parent class
+// --------------------------------------------------------------------------------------------------------------------
+// No special specifications, special algorithms, and assumptions.
+// --------------------------------------------------------------------------------------------------------------------
 #pragma once
 #include "Movie.h"
 
@@ -7,10 +16,12 @@ protected:
     int stock;
 
 public:
-    Drama();
+    Drama(); // default constructor
+
+    // sets genre, stock, director, title, and releaseYear to input values
     Drama(int, string, string, int);
 
-    ~Drama();
+    ~Drama(); // default destructor
 
     /// @brief compares Movie data to order
     /// @param reference to other Movie

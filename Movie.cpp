@@ -1,16 +1,57 @@
+// ---------------------------------------------------- Movie.cpp -----------------------------------------------------
+// Phohanh Tran CSS343 Section A
+// Creation Date: 11/29/2024
+// Date of Last Modification: 12/1/2024
+// --------------------------------------------------------------------------------------------------------------------
+// Purpose - implements the functions and attributes used by the Movie parent class
+// --------------------------------------------------------------------------------------------------------------------
+// No special specifications, special algorithms, and assumptions. 
+// --------------------------------------------------------------------------------------------------------------------
 #include "Movie.h"
 
+// ----------------------------------------Movie::Movie----------------------------------------
+// Description
+// default constructor: sets Movie values as default
+// preconditions: Movie class is defined correctly
+// postconditions: constructs a Movie object with all default values
+// --------------------------------------------------------------------------------------------
 Movie::Movie() : mediaType('D'), genre('-'), stock(0),
                  director(""), title(""), releaseYear(0) {}
 
+// -------------------------------------Movie::Movie(char)-------------------------------------
+// Description
+// paramaterized constructor 1: sets Movie values as default, except for genre
+// preconditions: inputs are valid, will be passed in a valid genre character, to be used
+//                by Movie subclasses in the default constructor
+// postconditions: constructs a Movie object with all default values, except genre
+//                 the constructed Movie will be stored by Movie subclasses when constructed
+//                 with their default constructor
+// --------------------------------------------------------------------------------------------
+Movie::Movie(char genre) : mediaType('D'), genre(genre), stock(0),
+                           director(""), title(""), releaseYear(0) {}
+
+// ------------------------Movie::Movie(char, int, string, string, int)------------------------
+// Description
+// paramaterized constructor 2: sets Movie genre, stock, director, title, and releaseYear
+//                              to input values
+// preconditions: input are valid, will be used in Movie subclass paramaterized constructors
+// postconditions: constructs a Movie object with passed in values,
+//                 the constructed Movie will be stored by Movie subclasses when constructed
+//                 with their paramaterized constructor
+// --------------------------------------------------------------------------------------------
 Movie::Movie(char genre, int stock, string director,
              string title, int releaseYear) : mediaType('D'), genre(genre),
                                               stock(stock),
                                               director(director),
                                               title(title),
-                                              releaseYear(releaseYear)
-{
-}
+                                              releaseYear(releaseYear) {}
+
+// ----------------------------------------Movie::~Movie---------------------------------------
+// Description
+// destructor: destructs Movie object
+// preconditions: Movie class does not initialize memory
+// postconditions: destructs Movie object
+// --------------------------------------------------------------------------------------------
 Movie::~Movie() {}
 
 // ------------------------------------Movie::toLowerString------------------------------------
