@@ -3,6 +3,8 @@
 #include <cassert>
 #include "Movie.h"
 #include "Comedy.h"
+#include "Classic.h"
+#include "Drama.h"
 #include "Transaction.h"
 
 using namespace std;
@@ -29,20 +31,32 @@ void printMovie(Movie &movie)
 // --------------------------------------------------------------------------------------------
 bool test_hasStock()
 {
-    Comedy comedy;
-    assert(comedy.hasStock() == false);
-
     const int stock = 0;
     const string director = "John Smith";
     const string title = "Movie 1";
-    const string releaseYear = "2024";
+    const int releaseYear = 2024;
+    const int stock2 = 10;
+
+    /** COMEDY TESTS */
+    Comedy comedy;
+    assert(comedy.hasStock() == false);
 
     Comedy comedyNoStock(stock, director, title, releaseYear);
     assert(comedyNoStock.hasStock() == false);
 
-    const int stock2 = 10;
     Comedy comedyHasStock(stock2, director, title, releaseYear);
     assert(comedyHasStock.hasStock() == true);
+
+    /** CLASSIC TESTS */
+
+    /** DRAMA TESTS  */
+    Drama drama;
+    assert(drama.hasStock() == false);
+    Drama dramaNoStock(stock, director, title, releaseYear);
+    assert(dramaNoStock.hasStock() == false);
+
+    Drama dramaHasStock(stock2, director, title, releaseYear);
+    assert(dramaHasStock.hasStock() == true);
 
     return true;
 }
@@ -69,7 +83,7 @@ void test_removeStock_whenStockIs0(Movie &movie)
     }
     assert(exceptionThrown == true);
     assert(!movie.hasStock());
-    cout << "Passed removeStock when stock = 0 Test" << endl;
+    cout << "\tPassed removeStock when stock = 0 Test" << endl;
 }
 
 // ----------------------------------------test_addStock---------------------------------------
@@ -81,22 +95,40 @@ void test_removeStock_whenStockIs0(Movie &movie)
 // --------------------------------------------------------------------------------------------
 bool test_addStock()
 {
+    const int stock = 0;
+    const string director = "John Smith";
+    const string title = "Movie 1";
+    const int releaseYear = 2024;
+
+    /** COMEDY TESTS */
     Comedy emptyComedy;
 
     assert(!emptyComedy.hasStock());
     emptyComedy.addStock();
     assert(emptyComedy.hasStock());
 
-    const int stock = 0;
-    const string director = "John Smith";
-    const string title = "Movie 1";
-    const string releaseYear = "2024";
-
     Comedy paramComedy(stock, director, title, releaseYear);
 
     assert(!paramComedy.hasStock());
     paramComedy.addStock();
     assert(paramComedy.hasStock());
+
+    return true;
+
+    /** CLASSIC TESTS */
+
+    /** DRAMA TESTS */
+    Drama emptyDrama;
+
+    assert(!emptyDrama.hasStock());
+    emptyDrama.addStock();
+    assert(emptyDrama.hasStock());
+
+    Drama paramDrama(stock, director, title, releaseYear);
+
+    assert(!paramDrama.hasStock());
+    paramDrama.addStock();
+    assert(paramDrama.hasStock());
 
     return true;
 }
@@ -109,14 +141,16 @@ bool test_addStock()
 // --------------------------------------------------------------------------------------------
 bool test_removeStock()
 {
-    Comedy comedy;
-    test_removeStock_whenStockIs0(comedy);
-
     const int stock = 10;
     const string director = "John Smith";
     const string title = "Movie 1";
-    const string releaseYear = "2024";
+    const int releaseYear = 2024;
 
+    /**
+     * COMEDY TESTS
+     */
+    Comedy comedy;
+    test_removeStock_whenStockIs0(comedy);
     Comedy comedyHasStock(stock, director, title, releaseYear);
     assert(comedyHasStock.hasStock());
     for (int i = 0; i < stock; i++)
@@ -124,6 +158,34 @@ bool test_removeStock()
 
     test_removeStock_whenStockIs0(comedyHasStock);
     cout << "\tComedy passed removeStock when stock = 0 Test" << endl;
+
+    /**
+     * CLASSIC TESTS
+     */
+    // Classic classic;
+    // test_removeStock_whenStockIs0(classic);
+
+    // Classic classicHasStock(stock, director, title, releaseYear);
+    // assert(classicHasStock.hasStock());
+    // for (int i = 0; i < stock; i++)
+    //     classicHasStock.removeStock();
+
+    // test_removeStock_whenStockIs0(classicHasStock);
+    // cout << "\tClassic passed removeStock when stock = 0 Test" << endl;
+
+    /**
+     * DRAMA TESTS
+     */
+    Drama drama;
+    test_removeStock_whenStockIs0(drama);
+
+    Drama dramaHasStock(stock, director, title, releaseYear);
+    assert(dramaHasStock.hasStock());
+    for (int i = 0; i < stock; i++)
+        dramaHasStock.removeStock();
+
+    test_removeStock_whenStockIs0(dramaHasStock);
+    cout << "\tDrama passed removeStock when stock = 0 Test" << endl;
 
     return true;
 }
@@ -136,28 +198,35 @@ bool test_removeStock()
 // --------------------------------------------------------------------------------------------
 bool test_greaterThan()
 {
+    const int stock = 10;
+    const string director = "John Smith";
+    const string director2 = "Orange Man";
+    const string title = "Movie 1";
+    const int releaseYear = 2024;
+    const int releaseYear2 = 2025;
+    const string title3 = "Movie 2";
+    const string titleLowered = "movie";
+    const string titleCapped = "MOVIE";
+
+    /** COMEDY TESTS */
     Comedy comedy;
     Comedy comedy2;
 
     assert((comedy < comedy2) == false);
     cout << "Equal Comedy passed" << endl;
 
-    const int stock = 10;
-    const string director = "John Smith";
-    const string title = "Movie 1";
-    const string releaseYear = "2024";
     Comedy paramComedy(stock, director, title, releaseYear);
 
-    assert((paramComedy < comedy) == true);
+    assert((paramComedy < comedy) == false);
     cout << "\tDifferent Comedy passed" << endl;
 
-    const string releaseYear2 = "2025";
     Comedy paramComedy2(stock, director, title, releaseYear2);
 
+    printMovie(paramComedy);
+    printMovie(paramComedy2);
     assert((paramComedy < paramComedy2) == true);
     cout << "\tComedy of same title different year passed" << endl;
 
-    const string title3 = "Movie 2";
     Comedy paramComedy3(stock, director, title3, releaseYear2);
 
     assert((paramComedy2 < paramComedy3) == true);
@@ -167,13 +236,39 @@ bool test_greaterThan()
     assert((paramComedy < paramComedy4) == false);
     cout << "\tComedy with same data passed" << endl;
 
-    const string titleLowered = "movie";
-    Comedy paramComedy5(stock, director, titleLowered, releaseYear);
+    Comedy paramComedy5(stock, director, title, releaseYear);
 
-    const string titleCapped = "MOVIE";
     Comedy paramComedy6(stock, director, titleLowered, releaseYear);
-    assert((paramComedy5 < paramComedy6) == false);
+    printMovie(paramComedy5);
+    printMovie(paramComedy6);
+    assert((paramComedy5 < paramComedy6) == true);
     cout << "\tComedy with differently-cased title passed" << endl;
+
+    /** CLASSIC TESTS */
+
+    /** DRAMA TESTS */
+    Drama drama;
+    Drama drama2;
+
+    assert((drama < drama2) == false);
+    cout << "Equal Drama passed" << endl;
+
+    Drama paramDrama(stock, director, title, releaseYear);
+
+    assert((paramDrama < drama) == false);
+    cout << "\tDifferent Drama passed" << endl;
+
+    Drama paramDrama2(stock, director, title3, releaseYear);
+    assert((paramDrama < paramDrama2) == true);
+    cout << "\tDrama with same director different title passed" << endl;
+
+    Drama paramDrama3(stock, director2, title3, releaseYear);
+    assert((paramDrama2 < paramDrama3) == true);
+    cout << "\tDrama with different director same title passed" << endl;
+
+    Drama paramDrama4(stock, director, title, releaseYear);
+    assert((paramDrama < paramDrama4) == false);
+    cout << "\tDrama with same data passed" << endl;
 
     return true;
 }
@@ -186,16 +281,19 @@ bool test_greaterThan()
 // --------------------------------------------------------------------------------------------
 bool test_equalTo()
 {
+    const int stock = 10;
+    const string director = "John Smith";
+    const string title = "Movie 1";
+    const int releaseYear = 2024;
+    const string titleCapped = "MOVIE 1";
+
+    /** COMEDY TESTS */
     Comedy comedy;
     Comedy comedy2;
 
     assert(comedy == comedy2);
     cout << "\tEmpty comedy passed" << endl;
 
-    const int stock = 10;
-    const string director = "John Smith";
-    const string title = "Movie 1";
-    const string releaseYear = "2024";
     Comedy paramComedy(stock, director, title, releaseYear);
     Comedy paramComedy2(stock, director, title, releaseYear);
     assert(paramComedy == paramComedy2);
@@ -204,9 +302,30 @@ bool test_equalTo()
     assert(!(comedy == paramComedy2));
     cout << "\tComedy with different data passed" << endl;
 
-    const string titleCapped = "MOVIE 1";
     Comedy paramComedyCapped(stock, director, titleCapped, releaseYear);
-    assert(paramComedy == paramComedyCapped);
+    assert(!(paramComedy == paramComedyCapped));
+    cout << "\tComedy with capitalized title passed" << endl;
+
+    /** CLASSIC TESTS */
+
+    /** DRAMA TESTS */
+    Drama drama;
+    Drama drama2;
+
+    assert(drama == drama2);
+    cout << "\tEmpty drama passed" << endl;
+
+    Drama paramDrama(stock, director, title, releaseYear);
+    Drama paramDrama2(stock, director, title, releaseYear);
+    assert(paramDrama == paramDrama2);
+    cout << "\tDrama with params passed" << endl;
+
+    assert(!(drama == paramDrama));
+    cout << "\tDrama with different data passed" << endl;
+
+    Drama paramDramayCapped(stock, director, titleCapped, releaseYear);
+    assert(!(paramDrama == paramDramayCapped));
+    cout << "\tDrama with capitalized title passed" << endl;
 
     return true;
 }

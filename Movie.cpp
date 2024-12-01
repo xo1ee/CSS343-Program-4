@@ -1,13 +1,28 @@
 #include "Movie.h"
 
-Movie::Movie() : genre('-'), stock(0), mediaType('D'), director(""), title(""), releaseYear("") {}
+Movie::Movie() : genre('-'), stock(0), mediaType('D'), director(""), title(""), releaseYear(0) {}
 
-Movie::Movie(int stock, string director, string title, string releaseYear) : stock(stock), genre('-'),
-                                                                             mediaType('D'),
-                                                                             director(director),
-                                                                             title(title),
-                                                                             releaseYear(releaseYear) {}
+Movie::Movie(int stock, string director, string title, int releaseYear) : stock(stock), genre('-'),
+                                                                          mediaType('D'),
+                                                                          director(director),
+                                                                          title(title),
+                                                                          releaseYear(releaseYear) {}
 Movie::~Movie() {}
+
+// ------------------------------------Movie::toLowerString------------------------------------
+// Description
+// toLowerString: lowercases input string
+// preconditions: input string may not have all alphabetical characters
+// postconditions: returns copy of string with all alphabetical characters lowercased
+// --------------------------------------------------------------------------------------------
+string Movie::toLowerString(const string str) const
+{
+    string toLower = str;
+    transform(toLower.begin(), toLower.end(), toLower.begin(),
+              [](unsigned char c)
+              { return tolower(c); });
+    return toLower;
+}
 
 // ---------------------------------------Movie::hasStock--------------------------------------
 // Description

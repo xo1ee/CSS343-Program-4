@@ -13,10 +13,12 @@ protected:
     int stock;
 
 public:
-    Movie(); // default attribute values: stock = '-', director = "Director" ,
-             // title = "Title", releaseYear = "0000"
+    Movie(); // default attribute values: stock = '-', director = "" ,
+             // title = "", releaseYear = 0
 
-    Movie(int, string, string, string);
+    Movie(int, string, string, int);
+
+    string toLowerString(const string) const; // lower-cases a string
 
     virtual ~Movie();
 
@@ -45,5 +47,5 @@ public:
     const char mediaType; // set to 'D' for all Movie classes
     const string director;
     const string title;
-    const string releaseYear;
+    const int releaseYear;
 };

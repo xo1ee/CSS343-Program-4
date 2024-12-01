@@ -2,8 +2,8 @@
 
 Comedy::Comedy() : Movie(), genre('F') {}
 
-Comedy::Comedy(int stock, string director, string title, string releaseYear) : Movie(stock, director, title, releaseYear),
-                                                                               genre('F') {}
+Comedy::Comedy(int stock, string director, string title, int releaseYear) : Movie(stock, director, title, releaseYear),
+                                                                            genre('F') {}
 
 Comedy::~Comedy() {}
 
@@ -23,9 +23,10 @@ bool Comedy::operator<(const Movie &other) const
     if (this->title < otherF->title)
         return true;
 
-    if (this->title == otherF->title &&
-        this->releaseYear < otherF->releaseYear)
-        return true;
+    if (this->title == otherF->title)
+    {
+        return this->releaseYear < otherF->releaseYear;
+    }
     return false;
 }
 

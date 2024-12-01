@@ -1,16 +1,16 @@
 #pragma once
 #include "Movie.h"
 
-class Comedy : public Movie
+class Drama : public Movie
 {
 protected:
     int stock;
 
 public:
-    Comedy();
-    Comedy(int, string, string, int);
+    Drama();
+    Drama(int, string, string, int);
 
-    ~Comedy();
+    ~Drama();
 
     /// @brief compares Movie data to order
     /// @param reference to other Movie
@@ -22,5 +22,5 @@ public:
     /// @return true if the other Movie is the same, false if it is different
     bool operator==(const Movie &) const override;
 
-    const char genre; // set to 'F'
+    const char genre; // set to 'D'
 };
