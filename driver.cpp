@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <cassert>
+#include "MovieFactory.h"
 #include "Movie.h"
 #include "Comedy.h"
 #include "Classic.h"
@@ -47,8 +48,6 @@ bool test_hasStock()
     Comedy comedyHasStock(stock2, director, title, releaseYear);
     assert(comedyHasStock.hasStock() == true);
 
-    /** CLASSIC TESTS */
-
     /** DRAMA TESTS  */
     Drama drama;
     assert(drama.hasStock() == false);
@@ -57,6 +56,8 @@ bool test_hasStock()
 
     Drama dramaHasStock(stock2, director, title, releaseYear);
     assert(dramaHasStock.hasStock() == true);
+
+    /** CLASSIC TESTS */
 
     return true;
 }
@@ -115,8 +116,6 @@ bool test_addStock()
 
     return true;
 
-    /** CLASSIC TESTS */
-
     /** DRAMA TESTS */
     Drama emptyDrama;
 
@@ -129,6 +128,8 @@ bool test_addStock()
     assert(!paramDrama.hasStock());
     paramDrama.addStock();
     assert(paramDrama.hasStock());
+
+    /** CLASSIC TESTS */
 
     return true;
 }
@@ -160,20 +161,6 @@ bool test_removeStock()
     cout << "\tComedy passed removeStock when stock = 0 Test" << endl;
 
     /**
-     * CLASSIC TESTS
-     */
-    // Classic classic;
-    // test_removeStock_whenStockIs0(classic);
-
-    // Classic classicHasStock(stock, director, title, releaseYear);
-    // assert(classicHasStock.hasStock());
-    // for (int i = 0; i < stock; i++)
-    //     classicHasStock.removeStock();
-
-    // test_removeStock_whenStockIs0(classicHasStock);
-    // cout << "\tClassic passed removeStock when stock = 0 Test" << endl;
-
-    /**
      * DRAMA TESTS
      */
     Drama drama;
@@ -186,6 +173,20 @@ bool test_removeStock()
 
     test_removeStock_whenStockIs0(dramaHasStock);
     cout << "\tDrama passed removeStock when stock = 0 Test" << endl;
+
+    /**
+     * CLASSIC TESTS
+     */
+    // Classic classic;
+    // test_removeStock_whenStockIs0(classic);
+
+    // Classic classicHasStock(stock, director, title, releaseYear);
+    // assert(classicHasStock.hasStock());
+    // for (int i = 0; i < stock; i++)
+    //     classicHasStock.removeStock();
+
+    // test_removeStock_whenStockIs0(classicHasStock);
+    // cout << "\tClassic passed removeStock when stock = 0 Test" << endl;
 
     return true;
 }
@@ -244,8 +245,6 @@ bool test_greaterThan()
     assert((paramComedy5 < paramComedy6) == true);
     cout << "\tComedy with differently-cased title passed" << endl;
 
-    /** CLASSIC TESTS */
-
     /** DRAMA TESTS */
     Drama drama;
     Drama drama2;
@@ -269,6 +268,8 @@ bool test_greaterThan()
     Drama paramDrama4(stock, director, title, releaseYear);
     assert((paramDrama < paramDrama4) == false);
     cout << "\tDrama with same data passed" << endl;
+
+    /** CLASSIC TESTS */
 
     return true;
 }
@@ -306,8 +307,6 @@ bool test_equalTo()
     assert(!(paramComedy == paramComedyCapped));
     cout << "\tComedy with capitalized title passed" << endl;
 
-    /** CLASSIC TESTS */
-
     /** DRAMA TESTS */
     Drama drama;
     Drama drama2;
@@ -327,7 +326,31 @@ bool test_equalTo()
     assert(!(paramDrama == paramDramayCapped));
     cout << "\tDrama with capitalized title passed" << endl;
 
+    /** CLASSIC TESTS */
+
     return true;
+}
+
+bool test_createMovie()
+{
+    vector<string> testData = {
+        "F, 10, Nora Ephron, You've Got Mail, 1998",
+
+        "D, 10, Steven Spielberg, Schindler's List, 1993",
+
+        "C, 10, George Cukor, Holiday, Katherine Hepburn 9 1938",
+
+        "C, 10, George Cukor, Holiday, Cary Grant 9 1938",
+
+        "Z, 10, Hal Ashby, Harold and Maude, Ruth Gordon 2 1971",
+
+        "D, 10, Phillippe De Broca, King of Hearts, 1967",
+    };
+
+    MovieFactory moviefac;
+
+    for (string line : testData)
+        moviefac.createMovie(line);
 }
 
 // --------------------------------------test_validAction--------------------------------------
@@ -389,6 +412,7 @@ bool test_validAction()
 
 int main()
 {
+    // Movie method tests
     if (test_hasStock())
         cout << "Movie::hasStock works:" << endl;
 
@@ -404,6 +428,12 @@ int main()
     if (test_equalTo())
         cout << "Movie::operator== works:" << endl;
 
+    // MovieFactory method tests
+
+    if (test_createMovie())
+        cout << "MovieFactory::createMovie works" << endl;
+
+    // Transaction method tests
     if (test_validAction())
         cout << "Transaction::validAction works" << endl;
 }

@@ -1,12 +1,16 @@
 #include "Movie.h"
 
-Movie::Movie() : genre('-'), stock(0), mediaType('D'), director(""), title(""), releaseYear(0) {}
+Movie::Movie() : mediaType('D'), genre('-'), stock(0),
+                 director(""), title(""), releaseYear(0) {}
 
-Movie::Movie(int stock, string director, string title, int releaseYear) : stock(stock), genre('-'),
-                                                                          mediaType('D'),
-                                                                          director(director),
-                                                                          title(title),
-                                                                          releaseYear(releaseYear) {}
+Movie::Movie(char genre, int stock, string director,
+             string title, int releaseYear) : mediaType('D'), genre(genre),
+                                              stock(stock),
+                                              director(director),
+                                              title(title),
+                                              releaseYear(releaseYear)
+{
+}
 Movie::~Movie() {}
 
 // ------------------------------------Movie::toLowerString------------------------------------

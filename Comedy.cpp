@@ -1,9 +1,10 @@
 #include "Comedy.h"
 
-Comedy::Comedy() : Movie(), genre('F') {}
+Comedy::Comedy() : Movie() {}
 
-Comedy::Comedy(int stock, string director, string title, int releaseYear) : Movie(stock, director, title, releaseYear),
-                                                                            genre('F') {}
+Comedy::Comedy(int stock, string director,
+               string title, int releaseYear) : Movie('F', stock, director,
+                                                      title, releaseYear) {}
 
 Comedy::~Comedy() {}
 

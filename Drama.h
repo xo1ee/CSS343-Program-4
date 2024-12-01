@@ -21,6 +21,4 @@ public:
     /// @param reference to other Movie
     /// @return true if the other Movie is the same, false if it is different
     bool operator==(const Movie &) const override;
-
-    const char genre; // set to 'D'
 };

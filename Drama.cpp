@@ -1,9 +1,10 @@
 #include "Drama.h"
 
-Drama::Drama() : Movie(), genre('D') {}
+Drama::Drama() : Movie() {}
 
-Drama::Drama(int stock, string director, string title, int releaseYear) : Movie(stock, director, title, releaseYear),
-                                                                          genre('D') {}
+Drama::Drama(int stock, string director,
+             string title, int releaseYear) : Movie('D', stock, director,
+                                                    title, releaseYear) {}
 
 Drama::~Drama() {}
 

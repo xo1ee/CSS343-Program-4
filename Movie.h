@@ -16,7 +16,7 @@ public:
     Movie(); // default attribute values: stock = '-', director = "" ,
              // title = "", releaseYear = 0
 
-    Movie(int, string, string, int);
+    Movie(char, int, string, string, int);  // input genre, stock, director, title, release year
 
     string toLowerString(const string) const; // lower-cases a string
 
