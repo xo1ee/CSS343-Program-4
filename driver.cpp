@@ -352,8 +352,6 @@ bool test_createMovie()
     for (string line : testData)
         moviefac.createMovie(line);
 
-    
-
     return true;
 }
 
@@ -417,26 +415,25 @@ bool test_validAction()
 int main()
 {
     // Movie method tests
-    // if (test_hasStock())
-    //     cout << "Movie::hasStock works:" << endl;
+    if (test_hasStock())
+        cout << "Movie::hasStock works:" << endl;
 
-    // if (test_addStock())
-    //     cout << "Movie::addStock works:" << endl;
+    if (test_addStock())
+        cout << "Movie::addStock works:" << endl;
 
-    // if (test_removeStock())
-    //     cout << "Movie::removeStock works:" << endl;
+    if (test_removeStock())
+        cout << "Movie::removeStock works:" << endl;
 
-    // if (test_greaterThan())
-    //     cout << "Movie::operator< works:" << endl;
+    if (test_greaterThan())
+        cout << "Movie::operator< works:" << endl;
 
-    // if (test_equalTo())
-    //     cout << "Movie::operator== works:" << endl;
+    if (test_equalTo())
+        cout << "Movie::operator== works:" << endl;
 
     // MovieFactory method tests
     if (test_createMovie())
         cout << "MovieFactory::createMovie works" << endl;
 
-    // Transaction method tests
-    // if (test_validAction())
-    //     cout << "Transaction::validAction works" << endl;
+    // Transaction method tests if (test_validAction())
+    cout << "Transaction::validAction works" << endl;
 }
