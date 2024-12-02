@@ -12,9 +12,6 @@
 
 class Drama : public Movie
 {
-protected:
-    int stock;
-
 public:
     Drama(); // default constructor
 

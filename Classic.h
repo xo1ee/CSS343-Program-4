@@ -12,9 +12,6 @@
 
 class Classic : public Movie
 {
-protected:
-    int stock;
-
 public:
     Classic(); // default constructor
 

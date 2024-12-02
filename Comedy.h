@@ -12,9 +12,6 @@
 
 class Comedy : public Movie
 {
-protected:
-    int stock;
-
 public:
     Comedy(); // default constructor
 

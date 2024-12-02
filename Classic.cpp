@@ -16,13 +16,14 @@
 // postconditions: constructs a Drama object with all default values and a Movie parent
 //                 with genre 'C'
 // --------------------------------------------------------------------------------------------
-Classic::Classic() : Movie(), majorActor(""), releaseMonth(0) {}
+Classic::Classic() : Movie('C'), majorActor(""), releaseMonth(0) {}
 
 // ------------------Classic::Classic(int, string, string, string, int, int)-------------------
 // Description
 // paramaterized constructor: sets Classic genre, stock, director, title, major actor,
 //                            releaseMonth and releaseYear to input values
-// preconditions: input are valid, Movie parameterized constructor is defined correctly
+// preconditions: inputs are different than Movie parent class and other Movie sub classes
+//                input are valid, Movie parameterized constructor is defined correctly
 // postconditions: constructs a Classic object and Movie parent with passed in values
 // --------------------------------------------------------------------------------------------
 Classic::Classic(int stock, string director, string title,
@@ -52,10 +53,12 @@ void Classic::printData() const
          << setw(8) << mediaType
          << setw(35) << title
          << setw(20) << director
-         << setw(16) << releaseMonth
+         << setw(6) << releaseMonth
          << setw(6) << releaseYear
          << stock
          << endl;
+
+    cout << left << setw(100) << majorActor << endl;
 }
 
 // --------------------------------------Classic::operator<--------------------------------------

@@ -22,7 +22,8 @@ Comedy::Comedy() : Movie('F') {}
 // Description
 // paramaterized constructor: sets Comedy genre, stock, director, title, and releaseYear
 //                            to input values
-// preconditions: input are valid, Movie parameterized constructor is defined correctly
+// preconditions: inputs are different than Movie parent class
+//                input are valid, Movie parameterized constructor is defined correctly
 // postconditions: constructs a Comedy object and Movie parent with passed in values
 // --------------------------------------------------------------------------------------------
 Comedy::Comedy(int stock, string director,
