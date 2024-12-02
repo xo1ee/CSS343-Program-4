@@ -4,6 +4,10 @@ Transaction::Transaction() {}
 
 Transaction::~Transaction() {}
 
+// Movie *Transaction::findMovie(string movie)
+// {
+// }
+
 // ----------------------------------Transaction::findCustomer---------------------------------
 // Description
 // findCustomer: returns true if a customer with an id of the input int is found
@@ -26,6 +30,5 @@ bool Transaction::validAction(char action)
     if (!isalpha(action))
         return false;
 
-    action = toupper(action);
-    return actionCodes.codes.find(action) != actionCodes.codes.end();
+    return actionCodes.codes.count(toupper(action)) != 0;
 }

@@ -1,12 +1,12 @@
 #include <iostream>
 #include <vector>
 #include <cassert>
-#include "MovieFactory.h"
-#include "Movie.h"
-#include "Comedy.h"
-#include "Drama.h"
-#include "Classic.h"
-#include "Transaction.h"
+#include "Movies/MovieFactory.h"
+#include "Movies/Movie.h"
+#include "Movies/Comedy.h"
+#include "Movies/Drama.h"
+#include "Movies/Classic.h"
+#include "Transactions/Transaction.h"
 
 using namespace std;
 
@@ -331,6 +331,12 @@ bool test_equalTo()
     return true;
 }
 
+// --------------------------------------test_createMovie--------------------------------------
+// Description
+// test_createMovie: tests MovieFactory::createMovie()
+// preconditions: MovieFactory and Movie subclasses are correctly defined
+// postconditions:
+// --------------------------------------------------------------------------------------------
 bool test_createMovie()
 {
     vector<string> testData = {

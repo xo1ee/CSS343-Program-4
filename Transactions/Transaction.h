@@ -1,14 +1,14 @@
 #pragma once
 #include <iostream>
 #include <cctype>
-#include <set>
-#include "Movie.h"
+#include <unordered_set>
+#include "Movies/Movie.h"
 
 using namespace std;
 
 struct ActionCodes
 {
-    set<char> codes = {'B', 'R', 'I', 'H'};
+    unordered_set<char> codes = {'B', 'R', 'I', 'H'};
 };
 
 class Transaction
@@ -18,9 +18,12 @@ private:
 
 public:
     Transaction();
-    ~Transaction();
+    virtual ~Transaction();
 
-    // *Movie findMovie(string);
+    /// @brief finds a Movie in MovieLib by movie data
+    /// @param movie data
+    /// @return pointer to Movie
+    Movie *findMovie(string);
 
     /// @brief finds customer in CustomerTable by customer ID
     /// @param ID of customer to find
