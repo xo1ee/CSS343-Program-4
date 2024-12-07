@@ -4,9 +4,17 @@ Transaction::Transaction() {}
 
 Transaction::~Transaction() {}
 
-// Movie *Transaction::findMovie(string movie)
-// {
-// }
+// -----------------------------------Transaction::findMovie-----------------------------------
+// Description
+// findMovie: returns ta pointer to the Movie of the input string data
+// preconditions: data is correct
+// postconditions: returns ta pointer to the Movie of the input string data, returns nullptr
+//                 if no Movie contains input data
+// --------------------------------------------------------------------------------------------
+Movie *Transaction::findMovie(MovieLib library, string data)
+{
+    return library.search(data);
+}
 
 // ----------------------------------Transaction::findCustomer---------------------------------
 // Description

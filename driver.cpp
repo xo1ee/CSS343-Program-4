@@ -9,6 +9,8 @@
 #include "Movies/Drama.h"
 #include "Movies/Classic.h"
 #include "Transactions/Transaction.h"
+#include "Transactions/Inventory.h"
+#include "Transactions/Borrow.h"
 
 using namespace std;
 
@@ -417,7 +419,7 @@ bool test_insertMovie()
     if (!infile)
     {
         cout << "File could not be opened." << endl;
-        return 1;
+        return false;
     }
 
     string line;
@@ -642,6 +644,33 @@ bool test_validAction()
     return true;
 }
 
+bool test_TransactionsClasses()
+{
+
+    MovieLib movieLib;
+    Inventory inv;
+    ifstream infile("data4movies.txt");
+    if (!infile)
+    {
+        cout << "File could not be opened." << endl;
+        return false;
+    }
+
+    string line;
+    while (!infile.eof())
+    {
+        getline(infile, line);
+        movieLib.insert(line);
+    }
+
+    inv.doInventory(movieLib);
+
+    cout << "Inventory works" << endl;
+
+    
+    return true;
+}
+
 int main()
 {
     // // Movie method tests
@@ -668,9 +697,13 @@ int main()
     // if (test_insertMovie())
     //     cout << "MovieLibrary::insertMovie works" << endl;
 
-    if (test_search2())
-        cout << "MovieLibrary::search works (2)" << endl;
+    // if (test_search2())
+    // cout << "MovieLibrary::search works (2)" << endl;
 
-    // // Transaction method tests if (test_validAction())
+    // // Transaction method tests
+    // if (test_validAction())
     // cout << "Transaction::validAction works" << endl;
+
+    if (test_TransactionsClasses())
+        cout << "Transaction works" << endl;
 }
