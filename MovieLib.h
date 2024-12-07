@@ -27,7 +27,9 @@ public:
 
     bool isEmpty() const;
 
-    bool search(const Movie &) const;
+    Movie *searchHelper(Movie *, const Movie *searchFor) const;
+
+    Movie *search(string);
 
     int getNumMovies() const;
 

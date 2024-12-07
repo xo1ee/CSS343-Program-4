@@ -5,7 +5,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 // Purpose - defines the functions and attributes used by the Classic parent class
 // --------------------------------------------------------------------------------------------------------------------
-// No special specifications, special algorithms, and assumptions. 
+// No special specifications, special algorithms, and assumptions.
 // --------------------------------------------------------------------------------------------------------------------
 #pragma once
 #include "Movie.h"

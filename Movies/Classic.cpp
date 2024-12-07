@@ -90,7 +90,7 @@ bool Classic::operator<(const Movie &other) const
 
 // --------------------------------------Classic::operator==-------------------------------------
 // Description
-// printData: checks the input movie has the exact same genre, director, title and releaseYear
+// operator==: checks the input movie has the exact same genre, director, title and releaseYear
 //            as the current Classic
 // preconditions: Both Classic objects are correctly instantiated, Classic data may have different
 //                capitalizations

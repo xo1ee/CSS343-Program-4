@@ -1,6 +1,6 @@
 #include "MovieLib.h"
 
-MovieLib::MovieLib() : numMovies(0) //, movieFac(movieFac)
+MovieLib::MovieLib() : numMovies(0)
 {
     for (char code : genreCodes.codes)
         movies[code] = nullptr;
@@ -11,54 +11,66 @@ MovieLib::MovieLib() : numMovies(0) //, movieFac(movieFac)
 // destructor: deallocates Movie node memory stored, calls clearMovieLib()
 // preconditions: Movie is correctly instatiated and all Movie objects will be deleted by
 //                MovieFactory
-// postconditions: deallocates Movie node memory
+// postconditions: does not deallocate any memory, this is done by MovieFactory
 // --------------------------------------------------------------------------------------------
 MovieLib::~MovieLib()
 {
-    // for (auto &genres : movies)
-    //     clearMovieLib(genres.second);
     numMovies = 0;
 }
 
+// ---------------------------------MovieLib::insertMovieHelper--------------------------------
+// Description
+// insertMovieHelper: helps insert a new movie into the MovieLib
+// preconditions: *curr points to a node in the correct genre BST
+// postconditions: returns true if a node was insertted successfully, false if not
+//                 ie when the movie is already present or if a nullptr *curr is passed in
+// --------------------------------------------------------------------------------------------
 bool MovieLib::insertMovieHelper(Movie *curr, Movie *newMovie)
 {
-    cout << "\t ENTER INSERT HELPER" << endl;
     if (curr == nullptr)
         return false;
 
-    cout << "CURRENT ";
-    curr->printData();
+    // cout << "CURRENT ";  // print to debug
+    // curr->printData();
 
     if (*curr == *newMovie)
     {
-        cout << "\t ==" << endl;
+        // cout << "\t ==" << endl;
         newMovie->printData();
         return false;
     }
-
-    if (*newMovie < *curr)
+    else if (*newMovie < *curr)
     {
-        cout << "\t <" << endl;
-        if (!insertMovieHelper(curr->left, newMovie))
+        // cout << "\t <" << endl;
+        bool leftIsLeaf = !insertMovieHelper(curr->left, newMovie);
+        if (leftIsLeaf)
         {
             curr->left = newMovie;
             numMovies++;
+            return true;
         }
-        insertMovieHelper(curr->left, newMovie);
     }
     else
     {
-        cout << "\t >" << endl;
-        if (!insertMovieHelper(curr->right, newMovie))
+        // cout << "\t >" << endl;
+        bool rightIsLeaf = !insertMovieHelper(curr->right, newMovie);
+        if (rightIsLeaf)
         {
             curr->right = newMovie;
             numMovies++;
+            return true;
         }
-        insertMovieHelper(curr->right, newMovie);
     }
     return true;
 }
 
+// --------------------------------------MovieLib::insert--------------------------------------
+// Description
+// insert: insert a new movie into the MovieLib
+// preconditions: input data string is formatted correctly with no mistakes
+//                the genre BST may be empty
+// postconditions: returns true if a node was inserted successfully, false if not
+// --------------------------------------------------------------------------------------------
 bool MovieLib::insert(string data)
 {
     // MovieFactory movieFac;
@@ -83,9 +95,46 @@ bool MovieLib::insert(string data)
 // --------------------------------------------------------------------------------------------
 bool MovieLib::isEmpty() const { return numMovies == 0; }
 
-bool MovieLib::search(const Movie &) const
+// -----------------------------------MovieLib::searchHelper-----------------------------------
+// Description
+// searchHelper: traverses the tree of the input Movie *node and compares to Movie *searchFor
+// preconditions: Movie *node is a node in one of the genre BSTs. assumes 2 input Movie
+//                objects are of the same genre
+// postconditions: returns the pointer to the movie if the movie being searched for is stored
+// --------------------------------------------------------------------------------------------
+Movie *MovieLib::searchHelper(Movie *node, const Movie *searchFor) const
 {
-    return true;
+    cout << "1" << endl;
+    if (node == nullptr) // if you reach a leaf, the node you're looking for doesn't exist
+        return nullptr;
+
+    cout << "IN SEARCH HELPER: ";
+    node->printData();
+    cout << "LOOKING FOR: ";
+    searchFor->printData();
+
+    cout << "2" << endl;
+    if (*node == *searchFor)
+        return node;
+
+    cout << "3" << endl;
+    if (*searchFor < *node)
+        return searchHelper(node->left, searchFor);
+
+    cout << "4" << endl;
+    return searchHelper(node->right, searchFor);
+}
+
+// --------------------------------------MovieLib::search--------------------------------------
+// Description
+// search: returns the pointer to a movie in the MovieLib if it matches the input data string
+// preconditions: assumes input data is valid
+// postconditions: returns the pointer to the movie if it is stored
+// --------------------------------------------------------------------------------------------
+Movie *MovieLib::search(string data)
+{
+    Movie *searchFor = movieFac.createMovie(data);
+    return searchHelper(movies[searchFor->genre], searchFor);
 }
 
 // -----------------------------------MovieLib::getNumMovies-----------------------------------
