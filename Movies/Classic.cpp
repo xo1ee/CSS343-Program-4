@@ -30,7 +30,10 @@ Classic::Classic(int stock, string director, string title,
                  string majorActor, int releaseMonth, int releaseYear) : Movie('C', stock, director,
                                                                                title, releaseYear),
                                                                          majorActor(majorActor),
-                                                                         releaseMonth(releaseMonth) {}
+                                                                         releaseMonth(releaseMonth)
+{
+    actors[majorActor] = stock;
+}
 
 // --------------------------------------Classic::~Classic--------------------------------------
 // Description
@@ -49,16 +52,43 @@ Classic::~Classic() {}
 // ---------------------------------------------------------------------------------------------
 void Classic::printData() const
 {
-    cout << left << setw(6) << genre
+    cout << setw(6) << genre
          << setw(8) << mediaType
          << setw(35) << title
          << setw(20) << director
-         << setw(6) << releaseMonth
-         << setw(6) << releaseYear
-         << stock
-         << endl;
+         << setw(8) << releaseMonth
+         << setw(8) << releaseYear
+         << setw(4) << stock << endl; // Figure out how to do a combined stock for this
 
-    cout << left << setw(100) << majorActor << endl;
+    for (auto &actor : actors)
+    {
+        int spacing = 0;
+        if (actor.first.size() < 17)
+            spacing = 17 - actor.first.size();
+        if (actor.first.size() > 17)
+            spacing = actor.first.size() - 17;
+
+        cout << setw(53 + spacing) << ""
+             << actor.first << " "
+             << string(15, '-') << " "
+             << actor.second
+             << endl
+             << endl;
+    }
+}
+
+// --------------------------------------Classic::addActor--------------------------------------
+// Description
+// addActor: adds an actor and stock count for the version of the current movie with
+//           each actor
+// preconditions: Classic is correctly instatiated, Classic data may have different
+//                capitalizations
+// postconditions: adds to the map of actors
+// ---------------------------------------------------------------------------------------------
+void Classic::addActor(const string newActor, const int newStock)
+{
+    actors[newActor] = newStock;
+    stock += newStock;
 }
 
 // --------------------------------------Classic::operator<--------------------------------------
@@ -90,7 +120,7 @@ bool Classic::operator<(const Movie &other) const
 
 // --------------------------------------Classic::operator==-------------------------------------
 // Description
-// printData: checks the input movie has the exact same genre, director, title and releaseYear
+// operator==: checks the input movie has the exact same genre, director, title and releaseYear
 //            as the current Classic
 // preconditions: Both Classic objects are correctly instantiated, Classic data may have different
 //                capitalizations

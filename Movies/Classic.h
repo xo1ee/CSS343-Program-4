@@ -5,13 +5,17 @@
 // --------------------------------------------------------------------------------------------------------------------
 // Purpose - defines the functions and attributes used by the Classic parent class
 // --------------------------------------------------------------------------------------------------------------------
-// No special specifications, special algorithms, and assumptions. 
+// No special specifications, special algorithms, and assumptions.
 // --------------------------------------------------------------------------------------------------------------------
 #pragma once
+#include "map"
 #include "Movie.h"
 
 class Classic : public Movie
 {
+private:
+    map<string, int> actors;
+
 public:
     Classic(); // default constructor
 
@@ -21,8 +25,12 @@ public:
 
     ~Classic(); // destructor, empty
 
-    // prints movie data in form: genre, stock, Release date, Major actor,
+    // prints movie data in form: genre, stock, Release date, Major actor
     void printData() const override;
+
+    // adds new actor to vector of actors for different versions of the same
+    // movie
+    void addActor(const string, const int);
 
     /// @brief compares Movie data to order
     /// @param reference to other Movie

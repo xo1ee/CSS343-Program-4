@@ -1,5 +1,12 @@
 #include "MovieFactory.h"
 
+// ----------------------------------MovieFactory::MovieFactory---------------------------------
+// Description
+// constructor: empty
+// preconditions: MovieFactory has attributes: genreCodes and createdMovies
+//                no need to explicitly iniitalize either
+// postconditions: initializes genreCodes object and empty createdMovies vector
+// ---------------------------------------------------------------------------------------------
 MovieFactory::MovieFactory() {}
 
 // ---------------------------------MovieFactory::~MovieFactory---------------------------------
@@ -11,9 +18,7 @@ MovieFactory::MovieFactory() {}
 MovieFactory::~MovieFactory()
 {
     for (Movie *movie : createdMovies)
-    {
         delete movie;
-    }
 }
 
 // ----------------------------------MovieFactory::createMovie----------------------------------
@@ -39,7 +44,7 @@ Movie *MovieFactory::createMovie(const string line)
 
     ss >> genre;
 
-    if (genrecodes.codes.count(toupper(genre)) == 0)
+    if (genreCodes.codes.count(toupper(genre)) == 0)
         return nullptr;
 
     ss >> comma >> stock >> comma;
@@ -90,14 +95,15 @@ Movie *MovieFactory::createMovie(const string line)
         break;
     }
     }
-    createdMovies.push_back(newMovie);
 
-    cout << "MOVIES: " << endl;
-
-    for (Movie *movie : createdMovies)
-    {
-        movie->printData();
-    }
+    if (newMovie != nullptr)
+        createdMovies.push_back(newMovie);
 
     return newMovie;
+}
+
+void MovieFactory::displayMovies() const
+{
+    for (Movie *movie : createdMovies)
+        movie->printData();
 }

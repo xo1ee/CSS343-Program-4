@@ -62,7 +62,7 @@ bool Drama::operator<(const Movie &other) const
 
 // --------------------------------------Drama::operator==-------------------------------------
 // Description
-// printData: checks the input movie has the exact same genre, director, title and releaseYear
+// opreator==: checks the input movie has the exact same genre, director, title and releaseYear
 //            as the current Drama
 // preconditions: Both Drama objects are correctly instantiated, Drama data may have different
 //                capitalizations

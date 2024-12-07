@@ -5,7 +5,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 // Purpose - defines implementation for the functions and attributes used by the Comedy parent class
 // --------------------------------------------------------------------------------------------------------------------
-// No special specifications, special algorithms, and assumptions. 
+// No special specifications, special algorithms, and assumptions.
 // --------------------------------------------------------------------------------------------------------------------
 #include "Comedy.h"
 
@@ -38,7 +38,7 @@ Comedy::Comedy(int stock, string director,
 // --------------------------------------------------------------------------------------------
 Comedy::~Comedy() {}
 
-// --------------------------------------Comedy::operaor<--------------------------------------
+// --------------------------------------Comedy::operator<--------------------------------------
 // Description
 // operator<: compares the ordering data of the input and current Comedy by alphabetical value
 //            of title then release year
@@ -63,7 +63,7 @@ bool Comedy::operator<(const Movie &other) const
 
 // --------------------------------------Comedy::operator==-------------------------------------
 // Description
-// printData: checks the input movie has the exact same genre, director, title and releaseYear
+// operator==: checks the input movie has the exact same genre, director, title and releaseYear
 //            as the current Comedy
 // preconditions: Both Comedy objects are correctly instantiated, Comedy data may have different
 //                capitalizations

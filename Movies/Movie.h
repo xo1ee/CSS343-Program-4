@@ -12,6 +12,7 @@
 #include <algorithm>
 #include <cctype>
 #include <iomanip>
+#include <sstream>
 #include <string>
 
 using namespace std;
@@ -46,6 +47,8 @@ public:
 
     void removeStock(); // removes from movie stock
 
+    int getStock() const; // returns movie stock
+
     virtual void printData() const; // prints movie data: Genre, Media Type,
                                     // Title, Director, Release year, Stock
 
@@ -61,9 +64,18 @@ public:
     /// @return true if the other Movie is the same, false if it is different
     virtual bool operator==(const Movie &) const = 0;
 
+    // /// @brief compares if the parses input movie data and compares it to see if it's
+    // /// the same as what's stored
+    // /// @param string of movie data
+    // /// @return true if the other Movie stores the same data, false if not
+    // virtual bool sameData(string) const = 0;
+
     const char genre;     // set to '-', unless parameterized constructor used
     const char mediaType; // set to 'D' for all Movie classes
     const string director;
     const string title;
     const int releaseYear;
+
+    Movie *left;
+    Movie *right;
 };
