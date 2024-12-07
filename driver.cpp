@@ -377,74 +377,74 @@ bool test_insertMovie()
 {
     MovieLib movielib;
     MovieFactory fac;
-    // VECTOR VERSION
-    vector<string>
-        testData = {
-            "F, 10, a, TITLE1, 1998",
-            "F, 10, a, TITLE2, 1999",
-            "F, 10, a, TITLE2, 1998",
-            "F, 10, a, TITLE2, 1000",
-            "F, 10, a, TITLE2, 2000",
-            "F, 10, a, TITLE3, 1993",
-            "F, 10, a, TITLE4, 2003",
+    // // VECTOR VERSION
+    // vector<string>
+    //     testData = {
+    //         // "F, 10, a, TITLE1, 1998",
+    //         // "F, 10, a, TITLE2, 1999",
+    //         // "F, 10, a, TITLE2, 1998",
+    //         // "F, 10, a, TITLE2, 1000",
+    //         // "F, 10, a, TITLE2, 2000",
+    //         // "F, 10, a, TITLE3, 1993",
+    //         // "F, 10, a, TITLE4, 2003",
 
-            "D, 10, b, cTitle, 2000",
-            "D, 10, b, bTitle, 2000",
-            "D, 10, a, bTitle, 2000",
-            "D, 10, a, cTitle, 2000",
-            "D, 10, a, aTitle, 2000",
-            "D, 10, c, aTitle, 2000",
-            "D, 10, b, aTitle, 2000",
+    //         // "D, 10, b, cTitle, 2000",
+    //         // "D, 10, b, bTitle, 2000",
+    //         // "D, 10, a, bTitle, 2000",
+    //         // "D, 10, a, cTitle, 2000",
+    //         // "D, 10, a, aTitle, 2000",
+    //         // "D, 10, c, aTitle, 2000",
+    //         // "D, 10, b, aTitle, 2000",
 
-            "C, 10, a, TITLE1, John Smith 3 1998",
-            "C, 10, a, TITLE1, John Smith 2 1998", // previous month
-            "C, 10, a, TITLE1, John Smith 4 1997", // next year
-            // "C, 10, a, TITLE1, Amy Smith 3 1998",
-            // "C, 10, a, TITLE1, Amy Smith 3 2000",
-            // "C, 10, a, TITLE1, John Smith 3 2000",
-            // "C, 10, a, TITLE1, John Smith 6 1998",
+    //         // "C, 10, a, TITLE1, John Smith 3 1998",
+    //         // "C, 10, a, TITLE1, John Smith 2 1998", // previous month
+    //         // "C, 10, a, TITLE1, John Smith 4 1997", // next year
+    //         "C, 10, a, TITLE1, Amy Smith 3 1998",
+    //         "C, 10, a, TITLE1, Amy Smith 3 2000",
+    //         "C, 10, a, TITLE1, John Smith 3 2000",
+    //         "C, 10, a, TITLE1, John Smith 6 1998",
 
-        };
-    for (string line : testData)
+    //     };
+    // for (string line : testData)
+    // {
+    //     assert(movielib.insert(line));
+    //     // movielib.print();
+    // }
+
+    // // FILE INPUT VERSION
+
+    ifstream infile("data4movies.txt");
+    if (!infile)
     {
+        cout << "File could not be opened." << endl;
+        return 1;
+    }
+
+    string line;
+    while (!infile.eof())
+    {
+        char genre;
+        getline(infile, line);
+
+        Movie *newMovie = fac.createMovie(line);
+        // cout << "INSERT: " << line << endl;
+
+        if (line == "")
+            break;
+
+        genre = line[0];
+        GenreCodes genreCodes;
+        if (genreCodes.codes.count(toupper(genre)) == 0)
+        {
+            assert(movielib.insert(line) == false);
+            continue;
+        }
+
         assert(movielib.insert(line));
         // movielib.print();
     }
+    movielib.print();
 
-    // // FILE INPUT VERSION
-    /**
-        // ifstream infile("data4movies.txt");
-        // if (!infile)
-        // {
-        //     cout << "File could not be opened." << endl;
-        //     return 1;
-        // }
-
-        // string line;
-        // while (!infile.eof())
-        // {
-        //     char genre;
-        //     getline(infile, line);
-
-        //     Movie *newMovie = fac.createMovie(line);
-        //     cout << "INSERT: " << line << endl;
-
-        //     if (line == "")
-        //         break;
-
-        //     genre = line[0];
-        //     GenreCodes genreCodes;
-        //     if (genreCodes.codes.count(toupper(genre)) == 0)
-        //     {
-        //         assert(movielib.insert(line) == false);
-        //         continue;
-        //     }
-
-        //     movielib.insert(line);
-        //     movielib.print();
-        // }
-        // movielib.print();
-        */
     return true;
 }
 
@@ -485,13 +485,11 @@ bool test_search()
         if (movie == nullptr)
             continue;
 
-        cout << "THE NODE FROM THE LIBRARY: " << endl;
-        inLibrary->printData();
-        cout << "THE NODE WE WANT: " << endl;
-        movie->printData();
-        cout << "1" << endl;
+        // cout << "THE NODE FROM THE LIBRARY: " << endl;
+        // inLibrary->printData();
+        // cout << "THE NODE WE WANT: " << endl;
+        // movie->printData();
         assert(*movie == *inLibrary);
-        cout << "2" << endl;
     }
 
     return true;
@@ -577,11 +575,11 @@ int main()
     //     cout << "MovieFactory::createMovie works" << endl;
 
     // MovieLibrary method tests
-    // if (test_insertMovie())
-    //     cout << "MovieLibrary::insertMovie works" << endl;
+    if (test_insertMovie())
+        cout << "MovieLibrary::insertMovie works" << endl;
 
-    if (test_search())
-        cout << "MovieLibrary::search works" << endl;
+    // if (test_search())
+    //     cout << "MovieLibrary::search works" << endl;
 
     // // Transaction method tests if (test_validAction())
     // cout << "Transaction::validAction works" << endl;

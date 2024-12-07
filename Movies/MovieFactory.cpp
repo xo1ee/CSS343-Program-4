@@ -18,9 +18,7 @@ MovieFactory::MovieFactory() {}
 MovieFactory::~MovieFactory()
 {
     for (Movie *movie : createdMovies)
-    {
         delete movie;
-    }
 }
 
 // ----------------------------------MovieFactory::createMovie----------------------------------

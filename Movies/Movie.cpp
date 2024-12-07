@@ -112,6 +112,15 @@ void Movie::removeStock()
     stock--;
 }
 
+// ---------------------------------------Movie::getStock---------------------------------------
+// Description
+// getStock: returns movie stock
+// preconditions: Movie is correctly instatiated
+// postconditions: returns stock, which will be used to adjust Classic movie stock with
+//                 versions with different majorActors
+// ---------------------------------------------------------------------------------------------
+int Movie::getStock() const { return stock; }
+
 // ---------------------------------------Movie::printData--------------------------------------
 // Description
 // printData: prints Movie data in form: Genre, Media Type, Title, Director, Release year,

@@ -47,6 +47,8 @@ public:
 
     void removeStock(); // removes from movie stock
 
+    int getStock() const; // returns movie stock
+
     virtual void printData() const; // prints movie data: Genre, Media Type,
                                     // Title, Director, Release year, Stock
 

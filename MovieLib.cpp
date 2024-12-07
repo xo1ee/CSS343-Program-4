@@ -24,19 +24,33 @@ MovieLib::~MovieLib()
 // preconditions: *curr points to a node in the correct genre BST
 // postconditions: returns true if a node was insertted successfully, false if not
 //                 ie when the movie is already present or if a nullptr *curr is passed in
+//                 adds to the stock and majorActors for classic movies, if adding a new
+//                 version of the same title
 // --------------------------------------------------------------------------------------------
 bool MovieLib::insertMovieHelper(Movie *curr, Movie *newMovie)
 {
     if (curr == nullptr)
         return false;
 
-    // cout << "CURRENT ";  // print to debug
-    // curr->printData();
-
     if (*curr == *newMovie)
     {
         // cout << "\t ==" << endl;
-        newMovie->printData();
+        // cout << "CURR ";
+        // curr->printData();
+        // cout << "NEW ";
+        // newMovie->printData();
+        if (curr->genre == 'C' && newMovie->genre == 'C')
+        {
+            Classic *currClassic = static_cast<Classic *>(curr);
+            Classic *newClassic = static_cast<Classic *>(newMovie);
+
+            currClassic->addActor(newClassic->majorActor, newClassic->getStock());
+
+            curr = currClassic;
+            // cout << "COMBINED CLASSICS ";
+            // curr->printData();
+            return true;
+        }
         return false;
     }
     else if (*newMovie < *curr)
@@ -73,7 +87,6 @@ bool MovieLib::insertMovieHelper(Movie *curr, Movie *newMovie)
 // --------------------------------------------------------------------------------------------
 bool MovieLib::insert(string data)
 {
-    // MovieFactory movieFac;
     Movie *newMovie = movieFac.createMovie(data);
     if (newMovie == nullptr)
         return false;
@@ -175,18 +188,22 @@ void MovieLib::print() const
 {
     for (auto &genres : movies)
     {
-        cout << "-------------------------------------------";
-        cout << "---------------------------------------------------" << endl;
+        int stockSpace = 0;
+        if (genres.first == 'C')
+            stockSpace = 4;
+
+        cout << string(95, '-') << endl;
+
         cout << left << setw(6) << "Genre"
              << setw(8) << "Media"
              << setw(35) << "Title"
              << setw(20) << "Director";
 
-        // if (genres.first == 'C')
-        // cout << setw(6) << "Month";
+        if (genres.first == 'C')
+            cout << setw(8) << "Month";
 
         cout << setw(6) << "Year"
-             << setw(4) << "Stock"
+             << setw(4 + stockSpace) << "Stock"
              << endl;
         printHelper(genres.second);
         cout << endl;
