@@ -13,10 +13,7 @@ MovieLib::MovieLib() : numMovies(0)
 //                MovieFactory
 // postconditions: does not deallocate any memory, this is done by MovieFactory
 // --------------------------------------------------------------------------------------------
-MovieLib::~MovieLib()
-{
-    numMovies = 0;
-}
+MovieLib::~MovieLib() { numMovies = 0; }
 
 // ---------------------------------MovieLib::insertMovieHelper--------------------------------
 // Description

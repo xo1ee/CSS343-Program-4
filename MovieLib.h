@@ -16,24 +16,24 @@ private:
     int numMovies;
     unordered_map<char, Movie *> movies;
 
+    bool insertMovieHelper(Movie *, Movie *);
+
+    Movie *searchHelper(Movie *, const Movie *searchFor) const;
+
+    void printHelper(Movie *) const;
+
 public:
     MovieLib();
 
     ~MovieLib();
 
-    bool insertMovieHelper(Movie *, Movie *);
-
     bool insert(string);
 
     bool isEmpty() const;
 
-    Movie *searchHelper(Movie *, const Movie *searchFor) const;
-
     Movie *search(string);
 
     int getNumMovies() const;
-
-    void printHelper(Movie *) const;
 
     void print() const;
 };
