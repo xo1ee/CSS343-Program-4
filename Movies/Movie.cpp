@@ -5,7 +5,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 // Purpose - implements the functions and attributes used by the Movie parent class
 // --------------------------------------------------------------------------------------------------------------------
-// No special specifications, special algorithms, and assumptions. 
+// No special specifications, special algorithms, and assumptions.
 // --------------------------------------------------------------------------------------------------------------------
 #include "Movie.h"
 
@@ -16,7 +16,7 @@
 // postconditions: constructs a Movie object with all default values
 // --------------------------------------------------------------------------------------------
 Movie::Movie() : mediaType('D'), genre('-'), stock(0),
-                 director(""), title(""), releaseYear(0) {}
+                 director(""), title(""), releaseYear(0), left(nullptr), right(nullptr) {}
 
 // -------------------------------------Movie::Movie(char)-------------------------------------
 // Description
@@ -28,7 +28,7 @@ Movie::Movie() : mediaType('D'), genre('-'), stock(0),
 //                 with their default constructor
 // --------------------------------------------------------------------------------------------
 Movie::Movie(char genre) : mediaType('D'), genre(genre), stock(0),
-                           director(""), title(""), releaseYear(0) {}
+                           director(""), title(""), releaseYear(0), left(nullptr), right(nullptr) {}
 
 // ------------------------Movie::Movie(char, int, string, string, int)------------------------
 // Description
@@ -44,12 +44,12 @@ Movie::Movie(char genre, int stock, string director,
                                               stock(stock),
                                               director(director),
                                               title(title),
-                                              releaseYear(releaseYear) {}
+                                              releaseYear(releaseYear), left(nullptr), right(nullptr) {}
 
 // ----------------------------------------Movie::~Movie---------------------------------------
 // Description
 // destructor: destructs Movie object
-// preconditions: Movie class does not initialize memory
+// preconditions: Movie class does not allocate memory
 // postconditions: destructs Movie object
 // --------------------------------------------------------------------------------------------
 Movie::~Movie() {}
@@ -121,11 +121,11 @@ void Movie::removeStock()
 // ---------------------------------------------------------------------------------------------
 void Movie::printData() const
 {
-    cout << left << setw(6) << genre
+    cout << setw(6) << genre
          << setw(8) << mediaType
          << setw(35) << title
          << setw(20) << director
          << setw(6) << releaseYear
-         << stock
+         << setw(4) << stock
          << endl;
 }

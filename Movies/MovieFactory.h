@@ -19,7 +19,7 @@ struct GenreCodes
 class MovieFactory
 {
 private:
-    GenreCodes genrecodes;         // valid Movie genre codes
+    GenreCodes genreCodes;         // valid Movie genre codes
     vector<Movie *> createdMovies; // stores all Movie objects created
 
 public:
@@ -27,4 +27,6 @@ public:
     ~MovieFactory(); // default destructor deletes all Movie objects
 
     Movie *createMovie(const string); // creates movie with input data
+
+    void displayMovies() const;
 };

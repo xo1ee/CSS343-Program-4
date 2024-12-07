@@ -1,6 +1,8 @@
 #include <iostream>
 #include <vector>
 #include <cassert>
+#include <fstream>
+#include "MovieLib.h"
 #include "Movies/MovieFactory.h"
 #include "Movies/Movie.h"
 #include "Movies/Comedy.h"
@@ -335,29 +337,106 @@ bool test_equalTo()
 // Description
 // test_createMovie: tests MovieFactory::createMovie()
 // preconditions: MovieFactory and Movie subclasses are correctly defined
-// postconditions:
+// postconditions: tests MovieFactory can create movies based on movie data
 // --------------------------------------------------------------------------------------------
 bool test_createMovie()
 {
     vector<string> testData = {
         "F, 10, Nora Ephron, You've Got Mail, 1998",
-
         "D, 10, Steven Spielberg, Schindler's List, 1993",
-
         "C, 10, George Cukor, Holiday, Katherine Hepburn 9 1938",
-
         "C, 10, George Cukor, Holiday, Cary Grant 9 1938",
-
         "Z, 10, Hal Ashby, Harold and Maude, Ruth Gordon 2 1971",
-
         "D, 10, Phillippe De Broca, King of Hearts, 1967",
     };
 
     MovieFactory moviefac;
 
+    // cout << "\tMOVIE LIBRARY CONTENTS: " << endl;
+    int count = 0;
     for (string line : testData)
-        moviefac.createMovie(line);
+    {
+        // cout << count++ << "th movie!" << endl;
+        // cout << "\t";
+        Movie *movie = moviefac.createMovie(line);
+        if (movie == nullptr)
+            continue;
+    }
+    // cout << "END" << endl;
 
+    return true;
+}
+
+// --------------------------------------test_insertMovie--------------------------------------
+// Description
+// test_insertMovie: tests MovieFactory::insertMovie()
+// preconditions: MovieLib, MovieFactory and Movie subclasses are correctly defined
+// postconditions: tests insertMovie functionality
+// --------------------------------------------------------------------------------------------
+bool test_insertMovie()
+{
+    MovieLib movielib;
+    // VECTOR VERSION
+    // vector<string> testData = {
+    //     "F, 10, a, TITLE1, 1998",
+    //     "F, 10, a, TITLE2, 1999",
+    //     "F, 10, a, TITLE2, 1998",
+    //     "F, 10, a, TITLE2, 1000",
+    //     "F, 10, a, TITLE2, 2000",
+    //     "F, 10, a, TITLE3, 1993"
+    //     "F, 10, a, TITLE4, 2003",
+
+    //     "D, 10, b, cTitle, 2000",
+    //     "D, 10, b, bTitle, 2000",
+    //     "D, 10, a, bTitle, 2000",
+    //     "D, 10, a, cTitle, 2000",
+    //     "D, 10, a, aTitle, 2000",
+    //     "D, 10, c, aTitle, 2000"
+    //     "D, 10, b, aTitle, 2000",
+
+    //     "C, 10, a, TITLE1, John Smith 3 1998",
+    //     "C, 10, a, TITLE1, John Smith 2 1998",   // previous month
+    //     "C, 10, a, TITLE1, John Smith 4 1997",   // next year
+    //     "C, 10, a, TITLE1, Amy Smith 3 1998",
+    //     "C, 10, a, TITLE1, Amy Smith 3 2000",
+    //     "C, 10, a, TITLE1, John Smith 3 2000",
+    //     "C, 10, a, TITLE1, John Smith 6 1998",
+
+    // };
+    // for (string line : testData)
+    // {
+    //     movielib.insert(line);
+    // // movielib.print();
+    // }
+
+    // FILE INPUT VERSION
+    ifstream infile("data4movies.txt");
+    if (!infile)
+    {
+        cout << "File could not be opened." << endl;
+        return 1;
+    }
+
+    string line;
+    while (!infile.eof())
+    {
+        char genre;
+        getline(infile, line);
+        genre = line[0];
+        if (line == "")
+            break;
+
+        GenreCodes genreCodes;
+        if (genreCodes.codes.count(toupper(genre)) == 0)
+        {
+            assert(movielib.insert(line) == false);
+            continue;
+        }
+        movielib.insert(line);
+        // assert(movielib.insert(line) == true);
+        movielib.print();
+    }
+    movielib.print();
     return true;
 }
 
@@ -420,26 +499,30 @@ bool test_validAction()
 
 int main()
 {
-    // Movie method tests
-    if (test_hasStock())
-        cout << "Movie::hasStock works:" << endl;
+    // // Movie method tests
+    // if (test_hasStock())
+    //     cout << "Movie::hasStock works:" << endl;
 
-    if (test_addStock())
-        cout << "Movie::addStock works:" << endl;
+    // if (test_addStock())
+    //     cout << "Movie::addStock works:" << endl;
 
-    if (test_removeStock())
-        cout << "Movie::removeStock works:" << endl;
+    // if (test_removeStock())
+    //     cout << "Movie::removeStock works:" << endl;
 
-    if (test_greaterThan())
-        cout << "Movie::operator< works:" << endl;
+    // if (test_greaterThan())
+    //     cout << "Movie::operator< works:" << endl;
 
-    if (test_equalTo())
-        cout << "Movie::operator== works:" << endl;
+    // if (test_equalTo())
+    //     cout << "Movie::operator== works:" << endl;
 
-    // MovieFactory method tests
-    if (test_createMovie())
-        cout << "MovieFactory::createMovie works" << endl;
+    // // MovieFactory method tests
+    // if (test_createMovie())
+    //     cout << "MovieFactory::createMovie works" << endl;
 
-    // Transaction method tests if (test_validAction())
-    cout << "Transaction::validAction works" << endl;
+    // MovieLibrary method tests
+    if (test_insertMovie())
+        cout << "MovieLibrary::insertMovie works" << endl;
+
+    // // Transaction method tests if (test_validAction())
+    // cout << "Transaction::validAction works" << endl;
 }

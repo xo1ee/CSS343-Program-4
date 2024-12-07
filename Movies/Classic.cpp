@@ -49,16 +49,16 @@ Classic::~Classic() {}
 // ---------------------------------------------------------------------------------------------
 void Classic::printData() const
 {
-    cout << left << setw(6) << genre
+    cout << setw(6) << genre
          << setw(8) << mediaType
          << setw(35) << title
          << setw(20) << director
          << setw(6) << releaseMonth
          << setw(6) << releaseYear
-         << stock
+         << setw(4) << stock
          << endl;
 
-    cout << left << setw(100) << majorActor << endl;
+    cout << setw(100) << majorActor << endl;
 }
 
 // --------------------------------------Classic::operator<--------------------------------------

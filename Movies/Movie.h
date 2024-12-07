@@ -66,4 +66,7 @@ public:
     const string director;
     const string title;
     const int releaseYear;
+
+    Movie *left;
+    Movie *right;
 };
