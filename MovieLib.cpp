@@ -111,10 +111,10 @@ bool MovieLib::isEmpty() const { return numMovies == 0; }
 // preconditions: Movie *node is a node in one of the genre BSTs. assumes 2 input Movie
 //                objects are of the same genre
 // postconditions: returns the pointer to the movie if the movie being searched for is stored
+//                 nullptr if not found
 // --------------------------------------------------------------------------------------------
 Movie *MovieLib::searchHelper(Movie *node, const Movie *searchFor) const
 {
-    cout << "1" << endl;
     if (node == nullptr) // if you reach a leaf, the node you're looking for doesn't exist
         return nullptr;
 
@@ -123,15 +123,22 @@ Movie *MovieLib::searchHelper(Movie *node, const Movie *searchFor) const
     cout << "LOOKING FOR: ";
     searchFor->printData();
 
-    cout << "2" << endl;
     if (*node == *searchFor)
-        return node;
+    {
+        if (node->genre == 'C' && searchFor->genre == 'C')
+        {
+            Classic *nodeClassic = dynamic_cast<Classic *>(node);
+            const Classic *searchClassic = dynamic_cast<const Classic *>(searchFor);
 
-    cout << "3" << endl;
+            if (!nodeClassic->hasActor(searchClassic->majorActor))
+                return nullptr;
+        }
+        return node;
+    }
+
     if (*searchFor < *node)
         return searchHelper(node->left, searchFor);
 
-    cout << "4" << endl;
     return searchHelper(node->right, searchFor);
 }
 
@@ -143,11 +150,22 @@ Movie *MovieLib::searchHelper(Movie *node, const Movie *searchFor) const
 // --------------------------------------------------------------------------------------------
 Movie *MovieLib::search(string data)
 {
-    Movie *searchFor = movieFac.createMovie(data);
+    char genre = data[0];
+    data.erase(0, 2);
+
+    Movie *searchFor = movieFac.createTemp(genre, data);
     if (searchFor == nullptr)
         return nullptr;
 
-    return searchHelper(movies[searchFor->genre], searchFor);
+    cout << "Search for: ";
+    searchFor->printData();
+
+    Movie *found = searchHelper(movies[searchFor->genre], searchFor);
+
+    if (found == nullptr)
+        return nullptr;
+
+    return found;
 }
 
 // -----------------------------------MovieLib::getNumMovies-----------------------------------

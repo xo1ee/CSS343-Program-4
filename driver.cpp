@@ -456,8 +456,8 @@ bool test_insertMovie()
 // --------------------------------------------------------------------------------------------
 bool test_search()
 {
-    MovieLib movielib;
-    MovieFactory moviefac;
+    MovieLib storeActual;
+    MovieFactory createExpected;
 
     vector<string> testData = {
         "F, 10, Nora Ephron, You've Got Mail, 1998",
@@ -469,8 +469,8 @@ bool test_search()
     };
 
     for (string line : testData)
-        movielib.insert(line);
-    movielib.print();
+        storeActual.insert(line);
+    storeActual.print();
 
     vector<Movie *> movies;
     int count = 0;
@@ -480,8 +480,8 @@ bool test_search()
         cout << "\t" << count++ << "th line ";
         cout << line << endl;
 
-        Movie *inLibrary = movielib.search(line);
-        Movie *movie = moviefac.createMovie(line);
+        Movie *inLibrary = storeActual.search(line);
+        Movie *movie = createExpected.createMovie(line);
         if (movie == nullptr)
             continue;
 
@@ -490,6 +490,96 @@ bool test_search()
         // cout << "THE NODE WE WANT: " << endl;
         // movie->printData();
         assert(*movie == *inLibrary);
+    }
+
+    return true;
+}
+
+// -----------------------------------------test_search2---------------------------------------
+// Description
+// test_search2: tests MovieLibrary::search()
+// preconditions: MovieLib, MovieLibrary and Movie subclasses are correctly defined
+// postconditions: tests search functionality in the context of how transaction commands
+//                 are formatted
+// --------------------------------------------------------------------------------------------
+bool test_search2()
+{
+    MovieLib storeActual;
+    MovieFactory createExpected;
+    vector<string> testDataStore = {
+        "F, 10, Nora Ephron, You've Got Mail, 1998",
+        "D, 10, Steven Spielberg, Schindler's List, 1993",
+        "C, 10, George Cukor, Holiday, Katherine Hepburn 9 1938",
+        "C, 10, George Cukor, Holiday, Cary Grant 9 1938",
+        "Z, 10, Hal Ashby, Harold and Maude, Ruth Gordon 2 1971",
+        "D, 10, Phillippe De Broca, King of Hearts, 1967",
+    };
+
+    vector<string> testDataSearch = {
+        "F You've Got Mail, 1998",
+        "D Steven Spielberg, Schindler's List",
+        "C 9 1938 Katherine Hepburn",
+        "C 9 1938 Cary Grant",
+        "Z Harold and Maude, Ruth Gordon 2 1971",
+        "D Phillippe De Broca, King of Hearts",
+    };
+
+    vector<string> testDataNotStored = {
+        "D Barry Levinson, Good Morning Vietnam",
+        "C 5 1940 Katherine Hepburnd",
+        "F Sleepless in Seattle, 1993",
+        "C 2 1971 Malcolm McDowell",
+        "C 3 1971 Ruth Gordon",
+        "C 9 1938 Joe Schmo",
+    };
+
+    for (string line : testDataStore)
+        storeActual.insert(line);
+
+    storeActual.print();
+
+    vector<Movie *> movies;
+    int count = 0;
+
+    for (string line : testDataSearch)
+    {
+        stringstream ss1(line);
+        char genre;
+        ss1 >> genre;
+
+        Movie *inLibrary = storeActual.search(line);
+        line.erase(0, 2);
+        Movie *movie = createExpected.createTemp(genre, line);
+        if (movie == nullptr)
+            continue;
+
+        cout << "THE NODE FROM THE LIBRARY: " << endl;
+        inLibrary->printData();
+        cout << "THE NODE WE WANT: " << endl;
+        movie->printData();
+        assert(*movie == *inLibrary);
+    }
+
+    for (string line : testDataNotStored)
+    {
+        stringstream ss1(line);
+        char genre;
+        ss1 >> genre;
+        line.erase(0, 2);
+        cout << "\t" << count++ << "th line: ";
+        cout << "Genre: [" << genre << "]" << endl;
+        cout << line << endl;
+
+        Movie *inLibrary = storeActual.search(line);
+        Movie *movie = createExpected.createTemp(line[0], line);
+        if (movie == nullptr)
+            continue;
+
+        cout << "THE NODE FROM THE LIBRARY: " << endl;
+        inLibrary->printData();
+        cout << "THE NODE WE WANT: " << endl;
+        movie->printData();
+        assert(!(*movie == *inLibrary));
     }
 
     return true;
@@ -574,12 +664,12 @@ int main()
     // if (test_createMovie())
     //     cout << "MovieFactory::createMovie works" << endl;
 
-    // MovieLibrary method tests
-    if (test_insertMovie())
-        cout << "MovieLibrary::insertMovie works" << endl;
+    // // MovieLibrary method tests
+    // if (test_insertMovie())
+    //     cout << "MovieLibrary::insertMovie works" << endl;
 
-    // if (test_search())
-    //     cout << "MovieLibrary::search works" << endl;
+    if (test_search2())
+        cout << "MovieLibrary::search works (2)" << endl;
 
     // // Transaction method tests if (test_validAction())
     // cout << "Transaction::validAction works" << endl;

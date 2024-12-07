@@ -23,6 +23,10 @@ public:
     // releaseMonth and releaseYear to input values
     Classic(int, string, string, string, int, int);
 
+    // sets releaseMonth, releaseYear and major actor
+    // to input values
+    Classic(string, int, int);
+
     ~Classic(); // destructor, empty
 
     // prints movie data in form: genre, stock, Release date, Major actor
@@ -31,6 +35,10 @@ public:
     // adds new actor to vector of actors for different versions of the same
     // movie
     void addActor(const string, const int);
+
+    // returns true if a Movie version with the passed in actor string is
+    // stored
+    bool hasActor(const string) const;
 
     /// @brief compares Movie data to order
     /// @param reference to other Movie

@@ -18,6 +18,9 @@ public:
     // sets genre, stock, director, title, and releaseYear to input values
     Comedy(int, string, string, int);
 
+    // sets title, and releaseYear to input values
+    Comedy(string, int);
+
     ~Comedy(); // default destructor
 
     /// @brief compares Movie data to order
@@ -29,10 +32,4 @@ public:
     /// @param reference to other Movie
     /// @return true if the other Movie is the same, false if it is different
     bool operator==(const Movie &) const override;
-
-    // /// @brief compares if the parses input movie data and compares it to see if it's
-    // /// the same as what's stored
-    // /// @param string of movie data
-    // /// @return true if the other Movie stores the same data, false if not
-    // bool sameData(const string) const;
 };

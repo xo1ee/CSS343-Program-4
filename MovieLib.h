@@ -31,7 +31,7 @@ public:
 
     bool isEmpty() const;
 
-    Movie *search(string);
+    Movie *search(const string);
 
     int getNumMovies() const;
 

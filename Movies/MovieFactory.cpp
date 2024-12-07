@@ -17,6 +17,7 @@ MovieFactory::MovieFactory() {}
 // ---------------------------------------------------------------------------------------------
 MovieFactory::~MovieFactory()
 {
+    deleteTemp();
     for (Movie *movie : createdMovies)
         delete movie;
 }
@@ -100,6 +101,91 @@ Movie *MovieFactory::createMovie(const string line)
         createdMovies.push_back(newMovie);
 
     return newMovie;
+}
+
+// -----------------------------------MovieFactory::createTemp----------------------------------
+// Description
+// createTemp: prints Classic Movie data in form: genre, stock, Release date, Major actor, Title,
+//            and director
+// preconditions: takes string containing Movie data, assumes data is correctly formatted,
+//                but the movie genre code may not be valid
+// postconditions: creates a Movie based on the input string of data, stores it in the
+//                 createdMovies vector, then returns the pointer to the movie or nullptr
+//                 if the input data was not valid
+// ---------------------------------------------------------------------------------------------
+Movie *MovieFactory::createTemp(const char genre, const string data)
+{
+    stringstream ss(data);
+    Movie *newMovie = nullptr;
+
+    switch (genre)
+    {
+    case ('F'):
+    {
+        string title;
+        int releaseYear;
+        getline(ss, title, ',');
+        ss >> releaseYear;
+
+        // cout << "CREATED COMEDY ";
+        // cout << "[" << title << "] [" << releaseYear << "]" << endl;
+        newMovie = new Comedy(title, releaseYear);
+        break;
+    }
+    case ('D'):
+    {
+        string director, title;
+        getline(ss, director, ',');
+        getline(ss, title, ',');
+        title.erase(0, 1);
+
+        // cout << "CREATED DRAMA ";
+        // cout << "[" << director << "] [" << title << "]" << endl;
+        newMovie = new Drama(director, title);
+        break;
+    }
+    case ('C'):
+    {
+        int releaseMonth, releaseYear;
+        string majorActor = "";
+        ss >> releaseMonth >> releaseYear;
+
+        string temp;
+        ss >> temp;
+        majorActor += temp;
+
+        while (ss >> temp)
+            majorActor += " " + temp;
+
+        // cout << "CREATED CLASSIC ";
+        // cout << "\t [" << releaseMonth << "] [" << releaseYear << "] [" << majorActor << "]" << endl;
+        newMovie = new Classic(majorActor, releaseMonth, releaseYear);
+        break;
+    }
+    };
+
+    if (newMovie == nullptr)
+        return nullptr;
+
+    tempMovies.push_back(newMovie);
+    return newMovie;
+}
+
+// ----------------------------------MovieFactory::createMovie----------------------------------
+// Description
+// createMovie: prints Classic Movie data in form: genre, stock, Release date, Major actor, Title,
+//            and director
+// preconditions: tempMovies may be empty
+// postconditions: creates a Movie based on the input string of data, stores it in the
+//                 createdMovies vector, then returns the pointer to the movie or nullptr
+//                 if the input data was not valid
+// ---------------------------------------------------------------------------------------------
+void MovieFactory::deleteTemp()
+{
+    if (tempMovies.empty())
+        return;
+    for (Movie *movie : tempMovies)
+        delete movie;
 }
 
 void MovieFactory::displayMovies() const

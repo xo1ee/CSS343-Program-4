@@ -30,6 +30,17 @@ Comedy::Comedy(int stock, string director,
                string title, int releaseYear) : Movie('F', stock, director,
                                                       title, releaseYear) {}
 
+// --------------------------------Comedy::Comedy(string, int)---------------------------------
+// Description
+// paramaterized constructor: sets Comedy title and releaseYear to input values
+// preconditions: inputs are different than Movie parent class
+//                input are valid, Movie parameterized constructor is defined correctly
+// postconditions: constructs a Comedy object and Movie parent with passed in values
+//                 used to create a temporary Movie for search comparisons
+// --------------------------------------------------------------------------------------------
+Comedy::Comedy(string title, int releaseYear) : Movie('F', 0, "",
+                                                      title, releaseYear) {}
+
 // ---------------------------------------Comedy::~Comedy--------------------------------------
 // Description
 // destructor: destructs DrComedyama object
@@ -68,13 +79,12 @@ bool Comedy::operator<(const Movie &other) const
 // preconditions: Both Comedy objects are correctly instantiated, Comedy data may have different
 //                capitalizations
 // postconditions: returns true if the input Comedy is the same, makes no changes to either
-//                 Comedy
+//                 Comedy. compares current Movie with a temporary comparison Movie
 // ---------------------------------------------------------------------------------------------
 bool Comedy::operator==(const Movie &other) const
 {
     const Comedy *otherF = dynamic_cast<const Comedy *>(&other);
 
-    return (this->director == otherF->director) &&
-           (this->title == otherF->title) &&
+    return (this->title == otherF->title) &&
            (this->releaseYear == otherF->releaseYear);
 }
