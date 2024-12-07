@@ -464,7 +464,7 @@ bool test_search()
         "D, 10, Steven Spielberg, Schindler's List, 1993",
         "C, 10, George Cukor, Holiday, Katherine Hepburn 9 1938",
         "C, 10, George Cukor, Holiday, Cary Grant 9 1938",
-        // "Z, 10, Hal Ashby, Harold and Maude, Ruth Gordon 2 1971",
+        "Z, 10, Hal Ashby, Harold and Maude, Ruth Gordon 2 1971",
         "D, 10, Phillippe De Broca, King of Hearts, 1967",
     };
 

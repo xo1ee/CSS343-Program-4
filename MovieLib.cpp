@@ -134,6 +134,9 @@ Movie *MovieLib::searchHelper(Movie *node, const Movie *searchFor) const
 Movie *MovieLib::search(string data)
 {
     Movie *searchFor = movieFac.createMovie(data);
+    if (searchFor == nullptr)
+        return nullptr;
+
     return searchHelper(movies[searchFor->genre], searchFor);
 }
 
