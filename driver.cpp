@@ -9,6 +9,8 @@
 #include "Movies/Drama.h"
 #include "Movies/Classic.h"
 #include "Transactions/Transaction.h"
+#include "Transactions/Inventory.h"
+#include "Transactions/Borrow.h"
 
 using namespace std;
 
@@ -417,7 +419,7 @@ bool test_insertMovie()
     if (!infile)
     {
         cout << "File could not be opened." << endl;
-        return 1;
+        return false;
     }
 
     string line;
@@ -456,8 +458,8 @@ bool test_insertMovie()
 // --------------------------------------------------------------------------------------------
 bool test_search()
 {
-    MovieLib movielib;
-    MovieFactory moviefac;
+    MovieLib storeActual;
+    MovieFactory createExpected;
 
     vector<string> testData = {
         "F, 10, Nora Ephron, You've Got Mail, 1998",
@@ -469,8 +471,8 @@ bool test_search()
     };
 
     for (string line : testData)
-        movielib.insert(line);
-    movielib.print();
+        storeActual.insert(line);
+    storeActual.print();
 
     vector<Movie *> movies;
     int count = 0;
@@ -480,8 +482,8 @@ bool test_search()
         cout << "\t" << count++ << "th line ";
         cout << line << endl;
 
-        Movie *inLibrary = movielib.search(line);
-        Movie *movie = moviefac.createMovie(line);
+        Movie *inLibrary = storeActual.search(line);
+        Movie *movie = createExpected.createMovie(line);
         if (movie == nullptr)
             continue;
 
@@ -490,6 +492,96 @@ bool test_search()
         // cout << "THE NODE WE WANT: " << endl;
         // movie->printData();
         assert(*movie == *inLibrary);
+    }
+
+    return true;
+}
+
+// -----------------------------------------test_search2---------------------------------------
+// Description
+// test_search2: tests MovieLibrary::search()
+// preconditions: MovieLib, MovieLibrary and Movie subclasses are correctly defined
+// postconditions: tests search functionality in the context of how transaction commands
+//                 are formatted
+// --------------------------------------------------------------------------------------------
+bool test_search2()
+{
+    MovieLib storeActual;
+    MovieFactory createExpected;
+    vector<string> testDataStore = {
+        "F, 10, Nora Ephron, You've Got Mail, 1998",
+        "D, 10, Steven Spielberg, Schindler's List, 1993",
+        "C, 10, George Cukor, Holiday, Katherine Hepburn 9 1938",
+        "C, 10, George Cukor, Holiday, Cary Grant 9 1938",
+        "Z, 10, Hal Ashby, Harold and Maude, Ruth Gordon 2 1971",
+        "D, 10, Phillippe De Broca, King of Hearts, 1967",
+    };
+
+    vector<string> testDataSearch = {
+        "F You've Got Mail, 1998",
+        "D Steven Spielberg, Schindler's List",
+        "C 9 1938 Katherine Hepburn",
+        "C 9 1938 Cary Grant",
+        "Z Harold and Maude, Ruth Gordon 2 1971",
+        "D Phillippe De Broca, King of Hearts",
+    };
+
+    vector<string> testDataNotStored = {
+        "D Barry Levinson, Good Morning Vietnam",
+        "C 5 1940 Katherine Hepburnd",
+        "F Sleepless in Seattle, 1993",
+        "C 2 1971 Malcolm McDowell",
+        "C 3 1971 Ruth Gordon",
+        "C 9 1938 Joe Schmo",
+    };
+
+    for (string line : testDataStore)
+        storeActual.insert(line);
+
+    storeActual.print();
+
+    vector<Movie *> movies;
+    int count = 0;
+
+    for (string line : testDataSearch)
+    {
+        stringstream ss1(line);
+        char genre;
+        ss1 >> genre;
+
+        Movie *inLibrary = storeActual.search(line);
+        line.erase(0, 2);
+        Movie *movie = createExpected.createTemp(genre, line);
+        if (movie == nullptr)
+            continue;
+
+        cout << "THE NODE FROM THE LIBRARY: " << endl;
+        inLibrary->printData();
+        cout << "THE NODE WE WANT: " << endl;
+        movie->printData();
+        assert(*movie == *inLibrary);
+    }
+
+    for (string line : testDataNotStored)
+    {
+        stringstream ss1(line);
+        char genre;
+        ss1 >> genre;
+        line.erase(0, 2);
+        cout << "\t" << count++ << "th line: ";
+        cout << "Genre: [" << genre << "]" << endl;
+        cout << line << endl;
+
+        Movie *inLibrary = storeActual.search(line);
+        Movie *movie = createExpected.createTemp(line[0], line);
+        if (movie == nullptr)
+            continue;
+
+        cout << "THE NODE FROM THE LIBRARY: " << endl;
+        inLibrary->printData();
+        cout << "THE NODE WE WANT: " << endl;
+        movie->printData();
+        assert(!(*movie == *inLibrary));
     }
 
     return true;
@@ -552,6 +644,75 @@ bool test_validAction()
     return true;
 }
 
+bool test_InventoryAndHistory()
+{
+    MovieLib movieLib;
+    ifstream infile("data4movies.txt");
+    if (!infile)
+    {
+        cout << "File could not be opened." << endl;
+        return false;
+    }
+
+    string line;
+    while (!infile.eof())
+    {
+        getline(infile, line);
+        movieLib.insert(line);
+    }
+
+    Inventory inv;
+    inv.doInventory(movieLib);
+
+    cout << "Inventory works" << endl;
+
+    return true;
+}
+
+bool test_Borrow()
+{
+    MovieLib movieLib;
+    vector<string> testDataStored = {
+        "D, 10, Steven Spielberg, Schindler's List, 1993",
+        "C, 0, George Cukor, Holiday, Katherine Hepburn 9 1938",
+        "C, 10, George Cukor, Holiday, Cary Grant 9 1938",
+        "Z, 10, Hal Ashby, Harold and Maude, Ruth Gordon 2 1971",
+        "D, 0, Phillippe De Broca, King of Hearts, 1967",
+    };
+
+    vector<string> testDataActions = {
+        "123 D D Steven Spielberg, Schindler's List",
+        "123 D C 9 1938 Katherine Hepburn",
+        "123 D C 9 1938 Cary Grant",
+        "123 D D Hal Ashby, Harold and Maude",
+        "123 D D Phillippe De Broca, King of Hearts",
+    };
+
+    vector<bool> expected = {
+        true,
+        false,
+        true,
+        false,
+        false,
+    };
+
+    assert(testDataStored.size() == expected.size());
+
+    for (string line : testDataStored)
+        movieLib.insert(line);
+
+    movieLib.print();
+
+    Borrow bor;
+    for (int i = 0; i < testDataActions.size(); i++)
+    {
+        cout << "line: " << testDataActions[i] << endl;
+        assert(bor.doBorrow(movieLib, testDataActions[i]) == expected[i]);
+    }
+
+    return true;
+}
+
 int main()
 {
     // // Movie method tests
@@ -574,13 +735,20 @@ int main()
     // if (test_createMovie())
     //     cout << "MovieFactory::createMovie works" << endl;
 
-    // MovieLibrary method tests
-    if (test_insertMovie())
-        cout << "MovieLibrary::insertMovie works" << endl;
+    // // MovieLibrary method tests
+    // if (test_insertMovie())
+    //     cout << "MovieLibrary::insertMovie works" << endl;
 
-    // if (test_search())
-    //     cout << "MovieLibrary::search works" << endl;
+    // if (test_search2())
+    // cout << "MovieLibrary::search works (2)" << endl;
 
-    // // Transaction method tests if (test_validAction())
+    // // Transaction method tests
+    // if (test_validAction())
     // cout << "Transaction::validAction works" << endl;
+
+    // if (test_InventoryAndHistory())
+    //     cout << "Inventory works" << endl;
+
+    if (test_Borrow())
+        cout << "Borrow works" << endl;
 }

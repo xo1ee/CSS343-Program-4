@@ -35,6 +35,21 @@ Classic::Classic(int stock, string director, string title,
     actors[majorActor] = stock;
 }
 
+// ------------------Classic::Classic(int, string, string, string, int, int)-------------------
+// Description
+// paramaterized constructor: sets major actor,
+//                            releaseMonth and releaseYear to input values
+// preconditions: inputs are different than Movie parent class and other Movie sub classes
+//                input are valid, Movie parameterized constructor is defined correctly
+// postconditions: constructs a Classic object and Movie parent with passed in values
+//                 used to create a temporary Movie for search comparisons
+// --------------------------------------------------------------------------------------------
+Classic::Classic(string majorActor,
+                 int releaseMonth, int releaseYear) : Movie('C', 0, "",
+                                                            title, releaseYear),
+                                                      majorActor(majorActor),
+                                                      releaseMonth(releaseMonth) {}
+
 // --------------------------------------Classic::~Classic--------------------------------------
 // Description
 // destructor: destructs Classic object
@@ -60,7 +75,7 @@ void Classic::printData() const
          << setw(8) << releaseYear
          << setw(4) << stock << endl; // Figure out how to do a combined stock for this
 
-    for (auto &actor : actors)
+    for (const auto &actor : actors)
     {
         int spacing = 0;
         if (actor.first.size() < 17)
@@ -89,6 +104,21 @@ void Classic::addActor(const string newActor, const int newStock)
 {
     actors[newActor] = newStock;
     stock += newStock;
+}
+
+// --------------------------------------Classic::hasActor--------------------------------------
+// Description
+// hasActor: returns true if a version of the current movie has the input otherActor
+// preconditions: Classic is correctly instatiated, Classic data may have different
+//                capitalizations
+// postconditions: returns true if the passed in actor is stored
+// ---------------------------------------------------------------------------------------------
+bool Classic::hasActor(const string otherActor) const
+{
+    for (const auto &actor : actors)
+        if (actor.first == otherActor)
+            return true;
+    return false;
 }
 
 // --------------------------------------Classic::operator<--------------------------------------
@@ -125,14 +155,12 @@ bool Classic::operator<(const Movie &other) const
 // preconditions: Both Classic objects are correctly instantiated, Classic data may have different
 //                capitalizations
 // postconditions: returns true if the input Classic is the same, makes no changes to either
-//                 Classic
+//                 Classic. compares current Movie with a temporary comparison Movie
 // ---------------------------------------------------------------------------------------------
 bool Classic::operator==(const Movie &other) const
 {
     const Classic *otherC = dynamic_cast<const Classic *>(&other);
 
-    return (this->director == otherC->director) &&
-           (this->title == otherC->title) &&
-           (this->releaseMonth == otherC->releaseMonth) &&
+    return (this->releaseMonth == otherC->releaseMonth) &&
            (this->releaseYear == otherC->releaseYear);
 }

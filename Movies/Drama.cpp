@@ -30,6 +30,17 @@ Drama::Drama(int stock, string director,
              string title, int releaseYear) : Movie('D', stock, director,
                                                     title, releaseYear) {}
 
+// --------------------------------Drama::Drama(string, string)--------------------------------
+// Description
+// paramaterized constructor: sets Drama director and title to input values
+// preconditions: inputs are different than Movie parent class
+//                input are valid, Movie parameterized constructor is defined correctly
+// postconditions: constructs a Drama object and Movie parent with passed in values
+//                 used to create a temporary Movie for search comparisons
+// --------------------------------------------------------------------------------------------
+Drama::Drama(string director, string title) : Movie('D', 0, director,
+                                                    title, 0) {}
+
 // ----------------------------------------Drama::~Drama---------------------------------------
 // Description
 // destructor: destructs Drama object
@@ -67,13 +78,11 @@ bool Drama::operator<(const Movie &other) const
 // preconditions: Both Drama objects are correctly instantiated, Drama data may have different
 //                capitalizations
 // postconditions: returns true if the input Drama is the same, makes no changes to either
-//                 Drama
+//                 Drama. compares current Movie with a temporary comparison Movie
 // ---------------------------------------------------------------------------------------------
 bool Drama::operator==(const Movie &other) const
 {
     const Drama *otherD = dynamic_cast<const Drama *>(&other);
-
     return (this->director == otherD->director) &&
-           (this->title == otherD->title) &&
-           (this->releaseYear == otherD->releaseYear);
+           (this->title == otherD->title);
 }

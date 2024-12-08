@@ -2,6 +2,7 @@
 #include <iostream>
 #include <cctype>
 #include <unordered_set>
+#include "../MovieLib.h"
 #include "../Movies/Movie.h"
 
 using namespace std;
@@ -23,7 +24,7 @@ public:
     /// @brief finds a Movie in MovieLib by movie data
     /// @param movie data
     /// @return pointer to Movie
-    Movie *findMovie(string);
+    Movie *findMovie(MovieLib, string);
 
     /// @brief finds customer in CustomerTable by customer ID
     /// @param ID of customer to find
