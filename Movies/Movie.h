@@ -43,9 +43,9 @@ public:
 
     bool hasStock() const; // checks if movie has stock
 
-    void addStock(); // adds to movie stock
+    virtual void addStock(); // adds to movie stock
 
-    void removeStock(); // removes from movie stock
+    virtual void removeStock(); // removes from movie stock
 
     int getStock() const; // returns movie stock
 

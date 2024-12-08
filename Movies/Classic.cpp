@@ -16,7 +16,7 @@
 // postconditions: constructs a Drama object with all default values and a Movie parent
 //                 with genre 'C'
 // --------------------------------------------------------------------------------------------
-Classic::Classic() : Movie('C'), majorActor(""), releaseMonth(0) {}
+Classic::Classic() : Movie('C'), actors(), majorActor(""), releaseMonth(0) {}
 
 // ------------------Classic::Classic(int, string, string, string, int, int)-------------------
 // Description
@@ -46,9 +46,12 @@ Classic::Classic(int stock, string director, string title,
 // --------------------------------------------------------------------------------------------
 Classic::Classic(string majorActor,
                  int releaseMonth, int releaseYear) : Movie('C', 0, "",
-                                                            title, releaseYear),
+                                                            "", releaseYear),
                                                       majorActor(majorActor),
-                                                      releaseMonth(releaseMonth) {}
+                                                      releaseMonth(releaseMonth)
+{
+    actors[majorActor] = 0;
+}
 
 // --------------------------------------Classic::~Classic--------------------------------------
 // Description
@@ -57,6 +60,83 @@ Classic::Classic(string majorActor,
 // postconditions: destructs Classic object
 // --------------------------------------------------------------------------------------------
 Classic::~Classic() {}
+
+// ---------------------------------------Classic::addStock--------------------------------------
+// Description
+// addStock: adds to the movie stock
+// preconditions: Classic is correctly instatiated
+// postconditions: adds to movie stock, should be called when Return::doReturn is called
+// --------------------------------------------------------------------------------------------
+void Classic::addStock(string actor)
+{
+    if (actors.find(actor) == actors.end())
+        throw invalid_argument(actor + " invalid actor.");
+    actors[actor]++;
+    stock++;
+}
+
+// --------------------------------------Classic::removeStock-------------------------------------
+// Description
+// removeStock: removes from the movie stock
+// preconditions: Classic is correctly instatiated and does not have empty stock
+// postconditions: removes from movie stock, should be called when Return::doBorrow is called
+// ---------------------------------------------------------------------------------------------
+void Classic::removeStock(string actor)
+{
+    if (actors.find(actor) == actors.end())
+        throw invalid_argument(actor + " invalid actor");
+    if (stock < 0 || actors[actor] < 0)
+        throw invalid_argument("Movie stock is negative");
+
+    if (stock == 0 || actors[actor] < 0)
+        throw invalid_argument("Movie is not in stock");
+
+    actors[actor]--;
+    stock--;
+}
+
+// --------------------------------------Classic::actorHasStock-------------------------------------
+// Description
+// actorHasStock: returns true if the version of the movie with the input actor has stock
+// preconditions: Classic is correctly instatiated and may have empty stock
+// postconditions: returns true if the stock for an actor is more than 0, used by Borrow()
+//                 throws an error for invalid actors
+// ---------------------------------------------------------------------------------------------
+bool Classic::actorHasStock(const string actor) const
+{
+    auto it = actors.find(actor);
+    if (it != actors.end())
+        return it->second > 0;
+
+    throw invalid_argument(actor + " invalid actor");
+    return false;
+}
+// --------------------------------------Classic::setActor-------------------------------------
+// Description
+// setActor: sets the majorActor to a different actor that is stored
+// preconditions: Classic is correctly instatiated and may have empty stock
+// postconditions: sets the majorActor to a different actor that is stored, but not if it
+//                 not already stored
+// ---------------------------------------------------------------------------------------------
+void Classic::setActor(const string actor)
+{
+    auto it = actors.find(actor);
+    if (it != actors.end())
+    {
+        majorActor = actor;
+        return;
+    }
+
+    throw invalid_argument(actor + " invalid actor");
+}
+
+// --------------------------------------Classic::getActor-------------------------------------
+// Description
+// getActor: returns the majorActor
+// preconditions: Classic is correctly instatiated
+// postconditions: returns the majorActor
+// ---------------------------------------------------------------------------------------------
+string Classic::getActor() const { return majorActor; }
 
 // --------------------------------------Classic::printData--------------------------------------
 // Description
