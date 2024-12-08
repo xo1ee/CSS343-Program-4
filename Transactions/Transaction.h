@@ -1,9 +1,11 @@
 #pragma once
-#include <iostream>
 #include <cctype>
+#include <iostream>
 #include <unordered_set>
 #include "../MovieLib.h"
 #include "../Movies/Movie.h"
+#include "../Customers/HashTable.h"
+#include "../Customers/Customer.h"
 
 using namespace std;
 
@@ -20,6 +22,8 @@ private:
 public:
     Transaction();
     virtual ~Transaction();
+
+    virtual bool execute(MovieLib &library, HashTable<int, Customer*> &customers, const std::string &transactionData) = 0;
 
     /// @brief finds a Movie in MovieLib by movie data
     /// @param movie data

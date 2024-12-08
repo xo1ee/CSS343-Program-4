@@ -1,54 +1,30 @@
-// ---------------------------------------------------- Customer.h -----------------------------------------------------
-// Kyle Lai CSS343 Section A
-// Creation Date: 11/29/2024
-// Date of Last Modification: 12/6/2024
-// --------------------------------------------------------------------------------------------------------------------
-// Purpose - Customer parent class stores info about each unique customer and their transaction history
-// --------------------------------------------------------------------------------------------------------------------
-// No special specifications, special algorithms, and assumptions.
-// --------------------------------------------------------------------------------------------------------------------#ifndef CUSTOMER_H_
 #ifndef CUSTOMER_H
 #define CUSTOMER_H
+
 #include <string>
-#include <iostream>
 #include <vector>
-#include "HashTable.h"
-// ID_SIZE must be 4 digits
-const int ID_SIZE = 4;
-using namespace std;
+#include <iostream>
 
 class Customer
 {
-    // operator<< displays the customers in a neatly fashion
-    friend ostream &operator<<(ostream &ostream, const Customer &rhs);
+    friend std::ostream &operator<<(std::ostream &os, const Customer &customer);
 
 public:
-    // constructors
     Customer();
-    Customer(string first, string last, string id);
+    Customer(const std::string &first, const std::string &last, const std::string &id);
     ~Customer();
 
-    // Setters
-    bool setCustomerID(string id);
-    bool setFirstName(string first);
-    bool setLastName(string last);
-    bool setCustomerData(string first, string last, string id);
+    void addTransaction(const std::string &transaction);
+    const std::vector<std::string> &getTransactions() const;
 
-    // Getters
-    string getCustomerID() const;
-    string getFirstName() const;
-    string getLastName() const;
-
+    std::string getID() const;
     int hash() const;
 
-    void updateHistoryLog(string history);
-
 private:
-    string firstName;
-    string lastName;
-    string customerID;
-
-    vector<string> historyLog;
+    std::string firstName;
+    std::string lastName;
+    std::string customerID;
+    std::vector<std::string> transactionHistory;
 };
 
 #endif

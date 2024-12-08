@@ -12,5 +12,5 @@ public:
     /// @brief Creates a transaction based on the input action code
     /// @param actionCode The action code representing the type of transaction
     /// @return Pointer to the created Transaction object
-    Transaction *createTransaction(char actionCode);
+    static Transaction *createTransaction(char actionCode);
 };

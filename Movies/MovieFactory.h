@@ -29,7 +29,7 @@ public:
     MovieFactory();  // default constructor
     ~MovieFactory(); // default destructor deletes all Movie objects
 
-    Movie *createMovie(const string); // creates movie with input data
+    static Movie *createMovie(const string); // creates movie with input data
 
     Movie *createTemp(const char, const string); // creates temporary movie with input data
 

@@ -9,62 +9,37 @@
 // --------------------------------------------------------------------------------------------------------------------
 #ifndef HASH_TABLE_H
 #define HASH_TABLE_H
-#include <iostream>
+#include <vector>
 #include <string>
-#include <set>
-#include <fstream>
+#include <functional>
 
-static const int MAX_DEFAULT_SIZE = 100;
-
-using namespace std;
-
-template <class T>
-class HashTable
-{
-    friend ostream &operator<<(ostream &ostream, const HashTable<T> &rhs)
-    {
-        for (int i = 1; i < rhs.tableSize; i++)
-        {
-
-            if (rhs.Table[i])
-            {
-
-                ostream << "[" << i << "] [" << *rhs.Table[i]->nodeData->data << "]" << endl;
-            }
-        }
-        return ostream;
-    }
-
+template <typename K, typename V>
+class HashTable {
 public:
-    HashTable();
+    HashTable(int size = DEFAULT_TABLE_SIZE);
     ~HashTable();
-    virtual int getHashIndex(T *key) const;
-    bool insert(T *newItem);
-    bool remove(T *newItem);
+
+    bool insert(const K& key, const V& value);
+    bool remove(const K& key);
+    V* search(const K& key) const;
     void clear();
-    bool contains(T *searchKey) const;
-    T *get(T *searchKey) const;
-    int getNumberOfItems() const;
-    bool isEmpty() const;
-    int size() const;
-    // assignment operator
+    void print() const;
 
-protected:
-    struct Node
-    {
-        T *data;
-        Node *next;
-        int key;
+private:
+    static const int DEFAULT_TABLE_SIZE = 991; // selected large prime number
+    struct TableNode {
+        K key;
+        V value;
+        TableNode* next;
+
+        TableNode(const K& key, const V& value, TableNode* next = nullptr)
+            : key(key), value(value), next(next) {}
     };
 
-    struct HashTableNode
-    {
-        int bCount;
-        Node *nodeData;
-    };
-
-    HashTableNode **Table;
-    int count;
+    std::vector<TableNode*> table;
     int tableSize;
+
+    int hash(const K& key) const;
+    void clearNodeList(TableNode* node);
 };
 #endif

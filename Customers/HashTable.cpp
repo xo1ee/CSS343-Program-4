@@ -5,114 +5,111 @@
 // --------------------------------------------------------------------------------------------------------------------
 // Purpose - implements the functions used by HashTable class. Used to store data in a hash table
 // --------------------------------------------------------------------------------------------------------------------
+
 #include "HashTable.h"
 #include <iostream>
+#include <vector>
+#include <functional>
 using namespace std;
 
-template<class T>
-HashTable<T>::HashTable()
-{
-	tableSize = MAX_DEFAULT_SIZE;
-	Table = new HashTableNode*[MAX_DEFAULT_SIZE];
-
-	for (int i = 0; i < tableSize; i++)
-	{
-		Table[i] = NULL;
-	}
-
-}
-template<class T>
-HashTable<T>::~HashTable()
-{
-	for (int i = 0; i < tableSize; i++)
-	{
-		if (Table[i])
-		{
-			delete Table[i]->nodeData->data;
-			delete Table[i]->nodeData;
-			delete Table[i];
-		}
-
-	}
-
-	delete Table;
+template <typename K, typename V>
+HashTable<K, V>::HashTable(int size) : tableSize(size) {
+    table.resize(size, nullptr);
 }
 
-template<class T>
-int HashTable<T>::getHashIndex(T* key) const
-{
-	return key->hash() % tableSize;
+template <typename K, typename V>
+HashTable<K, V>::~HashTable() {
+    clear();
 }
 
+template <typename K, typename V>
+bool HashTable<K, V>::insert(const K& key, const V& value) {
+    int index = hash(key);
+    TableNode* newNode = new TableNode(key, value);
 
-template<class T>
-bool HashTable<T>::insert(T* newItem)
-{
-
-	Node* newNode = new Node;
-	newNode->data = newItem;
-	newNode->next = NULL;
-
-
-	HashTableNode* newHashNode = new HashTableNode;
-	int hashIndex = getHashIndex(newItem);
-	newNode->key = hashIndex;
-
-	newHashNode->nodeData = newNode;
-
-	Table[hashIndex] = newHashNode;
-
-
-	return true;
-
+    if (!table[index]) {
+        table[index] = newNode;
+    } else {
+        TableNode* current = table[index];
+        while (current->next) {
+            if (current->key == key) {
+                delete newNode; // Prevent memory leak
+                return false;  // Key already exists
+            }
+            current = current->next;
+        }
+        current->next = newNode;
+    }
+    return true;
 }
 
-template<class T>
-bool HashTable<T>::remove(T* newItem)
-{
-	return true;
+template <typename K, typename V>
+bool HashTable<K, V>::remove(const K& key) {
+    int index = hash(key);
+    TableNode* current = table[index];
+    TableNode* prev = nullptr;
+
+    while (current) {
+        if (current->key == key) {
+            if (prev) {
+                prev->next = current->next;
+            } else {
+                table[index] = current->next;
+            }
+            delete current;
+            return true;
+        }
+        prev = current;
+        current = current->next;
+    }
+    return false;  // Key not found
 }
 
-template<class T>
-void HashTable<T>::clear()
-{
+template <typename K, typename V>
+V* HashTable<K, V>::search(const K& key) const {
+    int index = hash(key);
+    TableNode* current = table[index];
+
+    while (current) {
+        if (current->key == key) {
+            return &current->value;
+        }
+        current = current->next;
+    }
+    return nullptr;  // Key not found
 }
 
-template<class T>
-bool HashTable<T>::contains(T* searchKey) const
-{
-	int hash = getHashIndex(searchKey);
-	
-	return Table[hash] != NULL;
+template <typename K, typename V>
+void HashTable<K, V>::clear() {
+    for (int i = 0; i < table.size(); ++i) {
+        clearNodeList(table[i]);
+        table[i] = nullptr;
+    }
 }
 
-template<class T>
-T * HashTable<T>::get(T * searchKey) const
-{
-
-	if (contains(searchKey))
-	{
-		
-		return Table[getHashIndex(searchKey)]->nodeData->data;
-	}
-
-	return NULL;
+template <typename K, typename V>
+void HashTable<K, V>::clearNodeList(TableNode* node) {
+    while (node) {
+        TableNode* temp = node;
+        node = node->next;
+        delete temp;
+    }
 }
 
-template<class T>
-int HashTable<T>::getNumberOfItems() const
-{
-	return 0;
+template <typename K, typename V>
+void HashTable<K, V>::print() const {
+    for (int i = 0; i < table.size(); ++i) {
+        TableNode* current = table[i];
+        std::cout << "[" << i << "]";
+        while (current) {
+            std::cout << " -> {" << current->key << ": " << current->value << "}";
+            current = current->next;
+        }
+        std::cout << std::endl;
+    }
 }
 
-template<class T>
-bool HashTable<T>::isEmpty() const
-{
-	return false;
+template <typename K, typename V>
+int HashTable<K, V>::hash(const K& key) const {
+    return std::hash<K>()(key) % tableSize;
 }
-
-template<class T>
-int HashTable<T>::size() const
-{
-	return tableSize;
-};
