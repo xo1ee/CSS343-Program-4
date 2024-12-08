@@ -10,6 +10,8 @@
 #include "Movies/Classic.h"
 #include "Transactions/Transaction.h"
 #include "Transactions/Inventory.h"
+#include "Transactions/History.h"
+#include "Transactions/Return.h"
 #include "Transactions/Borrow.h"
 
 using namespace std;
@@ -528,7 +530,7 @@ bool test_search2()
 
     vector<string> testDataNotStored = {
         "D Barry Levinson, Good Morning Vietnam",
-        "C 5 1940 Katherine Hepburnd",
+        "C 5 1940 Katherine Hepburn",
         "F Sleepless in Seattle, 1993",
         "C 2 1971 Malcolm McDowell",
         "C 3 1971 Ruth Gordon",
@@ -678,6 +680,8 @@ bool test_Borrow()
         "C, 10, George Cukor, Holiday, Cary Grant 9 1938",
         "Z, 10, Hal Ashby, Harold and Maude, Ruth Gordon 2 1971",
         "D, 0, Phillippe De Broca, King of Hearts, 1967",
+        "F, 0, Phillippe De Broca, King of Hearts, 1967",
+        "F, 10, Nora Ephron, You've Got Mail, 1998",
     };
 
     vector<string> testDataActions = {
@@ -686,6 +690,8 @@ bool test_Borrow()
         "123 D C 9 1938 Cary Grant",
         "123 D D Hal Ashby, Harold and Maude",
         "123 D D Phillippe De Broca, King of Hearts",
+        "123 D F Phillippe De Broca, 1967",
+        "234 D F You've Got Mail, 1998",
     };
 
     vector<bool> expected = {
@@ -694,6 +700,8 @@ bool test_Borrow()
         true,
         false,
         false,
+        false,
+        true,
     };
 
     assert(testDataStored.size() == expected.size());
@@ -708,6 +716,13 @@ bool test_Borrow()
     {
         cout << "line: " << testDataActions[i] << endl;
         assert(bor.doBorrow(movieLib, testDataActions[i]) == expected[i]);
+    }
+
+    Return ret;
+
+    for (int i = 0; i < testDataActions.size(); i++)
+    {
+        
     }
 
     return true;
