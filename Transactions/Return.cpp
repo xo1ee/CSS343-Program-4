@@ -16,27 +16,30 @@ Return::~Return() {}
 // ---------------------------------------------------------------------------------------------
 bool Return::doReturn(MovieLib &movieLib, const string data) const
 {
-
     stringstream ss(data);
     int customer;
-    char dataType, genre;
+    char dataType;
 
-    ss >> customer >> dataType >> genre;
+    ss >> customer >> dataType;
 
     string movieData;
     getline(ss, movieData);
     movieData.erase(0, 1);
-    cout << "WITHIN DORETURN " << movieData << endl;
+    cout << "WITHIN DO RETURN " << movieData << endl;
 
     Movie *movie = movieLib.search(movieData);
 
     if (movie == nullptr)
+    {
+        cout << "NULLPTR" << endl;
         return false;
+    }
 
     if (movie->genre == 'C')
     {
+        cout << "1" << endl;
         Classic *classic = dynamic_cast<Classic *>(movie);
-        classic->addActor(classic->getActor(), 0);
+        classic->addActor(classic->getActor(), -1);
         movie = classic;
         return true;
     }

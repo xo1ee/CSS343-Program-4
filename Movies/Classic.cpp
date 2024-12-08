@@ -179,14 +179,15 @@ void Classic::printData() const
 // preconditions: Classic is correctly instatiated, Classic data may have different
 //                capitalizations
 // postconditions: adds to the map of actors a new actor and its stock, or increments if stock
-//                 is 0
+//                 is -1
 // ---------------------------------------------------------------------------------------------
 void Classic::addActor(const string newActor, const int newStock)
 {
-    if (newStock == 0)
+    if (newStock == -1)
     {
         actors[newActor]++;
         stock++;
+        return;
     }
     actors[newActor] = newStock;
     stock += newStock;
