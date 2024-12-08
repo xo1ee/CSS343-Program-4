@@ -6,9 +6,9 @@
 class Inventory : public Transaction
 {
 public:
-    Inventory();
+    Inventory();    // basic constructor
 
-    ~Inventory();
+    ~Inventory();   // basic destructor
 
     // prints the contents of the passed in MovieLib
     void doInventory(const MovieLib &MovieLib) const;

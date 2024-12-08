@@ -10,7 +10,4 @@ Inventory::~Inventory() {}
 // preconditions: takes a MovieLib item
 // postconditions: prints MovieLib contents, makes no changes
 // ---------------------------------------------------------------------------------------------
-void Inventory::doInventory(const MovieLib &movieLib) const
-{
-    movieLib.print();
-}
+void Inventory::doInventory(const MovieLib &movieLib) const { movieLib.print(); }

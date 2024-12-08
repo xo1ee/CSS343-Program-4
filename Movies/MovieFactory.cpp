@@ -46,7 +46,10 @@ Movie *MovieFactory::createMovie(const string line)
     ss >> genre;
 
     if (genreCodes.codes.count(toupper(genre)) == 0)
+    {
+        cout << "ERROR: " << genre << " Invalid Genre. Try Again." << endl;
         return nullptr;
+    }
 
     ss >> comma >> stock >> comma;
 

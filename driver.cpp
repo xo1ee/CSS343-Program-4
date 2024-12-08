@@ -644,11 +644,9 @@ bool test_validAction()
     return true;
 }
 
-bool test_TransactionsClasses()
+bool test_InventoryAndHistory()
 {
-
     MovieLib movieLib;
-    Inventory inv;
     ifstream infile("data4movies.txt");
     if (!infile)
     {
@@ -663,11 +661,55 @@ bool test_TransactionsClasses()
         movieLib.insert(line);
     }
 
+    Inventory inv;
     inv.doInventory(movieLib);
 
     cout << "Inventory works" << endl;
 
-    
+    return true;
+}
+
+bool test_Borrow()
+{
+    MovieLib movieLib;
+    vector<string> testDataStored = {
+        "D, 10, Steven Spielberg, Schindler's List, 1993",
+        "C, 0, George Cukor, Holiday, Katherine Hepburn 9 1938",
+        "C, 10, George Cukor, Holiday, Cary Grant 9 1938",
+        "Z, 10, Hal Ashby, Harold and Maude, Ruth Gordon 2 1971",
+        "D, 0, Phillippe De Broca, King of Hearts, 1967",
+    };
+
+    vector<string> testDataActions = {
+        "123 D D Steven Spielberg, Schindler's List",
+        "123 D C 9 1938 Katherine Hepburn",
+        "123 D C 9 1938 Cary Grant",
+        "123 D D Hal Ashby, Harold and Maude",
+        "123 D D Phillippe De Broca, King of Hearts",
+    };
+
+    vector<bool> expected = {
+        true,
+        false,
+        true,
+        false,
+        false,
+    };
+
+    assert(testDataStored.size() == expected.size());
+
+    for (string line : testDataStored)
+        movieLib.insert(line);
+
+    movieLib.print();
+
+    Borrow bor;
+    for (int i = 0; i < testDataActions.size(); i++)
+    {
+        cout << "line: " << testDataActions[i] << endl;
+        assert(bor.doBorrow(movieLib, testDataActions[i]) == expected[i]);
+    }
+
     return true;
 }
 
@@ -704,6 +746,9 @@ int main()
     // if (test_validAction())
     // cout << "Transaction::validAction works" << endl;
 
-    if (test_TransactionsClasses())
-        cout << "Transaction works" << endl;
+    // if (test_InventoryAndHistory())
+    //     cout << "Inventory works" << endl;
+
+    if (test_Borrow())
+        cout << "Borrow works" << endl;
 }

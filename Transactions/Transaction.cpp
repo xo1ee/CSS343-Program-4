@@ -6,7 +6,7 @@ Transaction::~Transaction() {}
 
 // -----------------------------------Transaction::findMovie-----------------------------------
 // Description
-// findMovie: returns ta pointer to the Movie of the input string data
+// findMovie: returns a pointer to the Movie of the input string data
 // preconditions: data is correct
 // postconditions: returns ta pointer to the Movie of the input string data, returns nullptr
 //                 if no Movie contains input data
