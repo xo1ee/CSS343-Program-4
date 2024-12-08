@@ -28,7 +28,7 @@ bool Return::doReturn(MovieLib &movieLib, const string data) const
     movieData.erase(0, 1);
     cout << "WITHIN DORETURN " << movieData << endl;
 
-    Movie *movie = search(movieData);
+    Movie *movie = movieLib.search(movieData);
 
     if (movie == nullptr)
         return false;
