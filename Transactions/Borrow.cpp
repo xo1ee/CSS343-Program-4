@@ -18,21 +18,25 @@ bool Borrow::doBorrow(MovieLib &movieLib, const string data) const
 {
     stringstream ss(data);
     int customer;
-    char dataType, genre;
+    char dataType;
 
     ss >> customer >> dataType;
 
     string movieData;
     getline(ss, movieData);
+
     movieData.erase(0, 1);
-    cout << "[" << movieData << "]" << endl;
 
     Movie *movie = movieLib.search(movieData);
 
     if (movie == nullptr || !movie->hasStock())
-    {
-        cout << "FAILED" << endl;
         return false;
+
+    if (movie->genre == 'C')
+    {
+        Classic *classic = dynamic_cast<Classic *>(movie);
+        if (!classic->actorHasStock(classic->getActor()))
+            return false;
     }
 
     movie->removeStock();

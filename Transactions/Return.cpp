@@ -33,6 +33,14 @@ bool Return::doReturn(MovieLib &movieLib, const string data) const
     if (movie == nullptr)
         return false;
 
+    if (movie->genre == 'C')
+    {
+        Classic *classic = dynamic_cast<Classic *>(movie);
+        classic->addActor(classic->getActor(), 0);
+        movie = classic;
+        return true;
+    }
+
     movie->addStock();
     return true;
 }

@@ -41,7 +41,7 @@ bool MovieLib::insertMovieHelper(Movie *curr, Movie *newMovie)
             Classic *currClassic = static_cast<Classic *>(curr);
             Classic *newClassic = static_cast<Classic *>(newMovie);
 
-            currClassic->addActor(newClassic->majorActor, newClassic->getStock());
+            currClassic->addActor(newClassic->getActor(), newClassic->getStock());
 
             curr = currClassic;
             // cout << "COMBINED CLASSICS ";
@@ -118,10 +118,10 @@ Movie *MovieLib::searchHelper(Movie *node, const Movie *searchFor) const
     if (node == nullptr) // if you reach a leaf, the node you're looking for doesn't exist
         return nullptr;
 
-    cout << "IN SEARCH HELPER: ";
-    node->printData();
-    cout << "LOOKING FOR: ";
-    searchFor->printData();
+    // cout << "IN SEARCH HELPER: ";
+    // node->printData();
+    // cout << "LOOKING FOR: ";
+    // searchFor->printData();
 
     if (*node == *searchFor)
     {
@@ -130,8 +130,10 @@ Movie *MovieLib::searchHelper(Movie *node, const Movie *searchFor) const
             Classic *nodeClassic = dynamic_cast<Classic *>(node);
             const Classic *searchClassic = dynamic_cast<const Classic *>(searchFor);
 
-            if (!nodeClassic->hasActor(searchClassic->majorActor))
+            if (!nodeClassic->hasActor(searchClassic->getActor()))
                 return nullptr;
+            nodeClassic->setActor(searchClassic->getActor()); // sets the actor to be correct
+            node = nodeClassic;                               // so its stock can be changed later
         }
         return node;
     }
@@ -152,13 +154,9 @@ Movie *MovieLib::search(string data)
 {
     char genre = data[0];
     data.erase(0, 2);
-
     Movie *searchFor = movieFac.createTemp(genre, data);
     if (searchFor == nullptr)
         return nullptr;
-
-    cout << "Search for: ";
-    searchFor->printData();
 
     Movie *found = searchHelper(movies[searchFor->genre], searchFor);
 
