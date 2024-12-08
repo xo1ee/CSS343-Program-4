@@ -671,7 +671,7 @@ bool test_InventoryAndHistory()
     return true;
 }
 
-bool test_Borrow()
+bool test_BorrowAndReturn()
 {
     MovieLib movieLib;
     vector<string> testDataStored = {
@@ -682,6 +682,16 @@ bool test_Borrow()
         "D, 0, Phillippe De Broca, King of Hearts, 1967",
         "F, 0, Phillippe De Broca, King of Hearts, 1967",
         "F, 10, Nora Ephron, You've Got Mail, 1998",
+    };
+
+    vector<string> testDataNoStock = {
+        "D, 0, Steven Spielberg, Schindler's List, 1993",
+        "C, 0, George Cukor, Holiday, Katherine Hepburn 9 1938",
+        "C, 0, George Cukor, Holiday, Cary Grant 9 1938",
+        "Z, 0, Hal Ashby, Harold and Maude, Ruth Gordon 2 1971",
+        "D, 0, Phillippe De Broca, King of Hearts, 1967",
+        "F, 0, Phillippe De Broca, King of Hearts, 1967",
+        "F, 0, Nora Ephron, You've Got Mail, 1998",
     };
 
     vector<string> testDataActions = {
@@ -718,13 +728,16 @@ bool test_Borrow()
         assert(bor.doBorrow(movieLib, testDataActions[i]) == expected[i]);
     }
 
+    MovieLib movieLib2;
+    for (string line : testDataStored)
+        movieLib2.insert(line);
     Return ret;
 
     for (int i = 0; i < testDataActions.size(); i++)
     {
-        
+        cout << "line: " << testDataActions[i] << endl;
+        assert(ret.doReturn(movieLib2, testDataActions[i]) == expected[i]);
     }
-
     return true;
 }
 
@@ -764,6 +777,6 @@ int main()
     // if (test_InventoryAndHistory())
     //     cout << "Inventory works" << endl;
 
-    if (test_Borrow())
+    if (test_BorrowAndReturn())
         cout << "Borrow works" << endl;
 }
