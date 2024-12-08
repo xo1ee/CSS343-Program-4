@@ -15,6 +15,7 @@ class Classic : public Movie
 {
 private:
     map<string, int> actors;
+    string majorActor;
 
 public:
     Classic(); // default constructor
@@ -28,6 +29,16 @@ public:
     Classic(string, int, int);
 
     ~Classic(); // destructor, empty
+
+    void addStock(string); // adds to movie stock
+
+    void removeStock(string); // removes from movie stock
+
+    bool actorHasStock(const string) const; // returns true if an actor has stock
+
+    void setActor(const string); // sets the majorActor as a different stored actor
+
+    string getActor() const; // returns the majorActor
 
     // prints movie data in form: genre, stock, Release date, Major actor
     void printData() const override;
@@ -50,6 +61,5 @@ public:
     /// @return true if the other Movie is the same, false if it is different
     bool operator==(const Movie &) const override;
 
-    const string majorActor;
     const int releaseMonth;
 };

@@ -28,10 +28,18 @@ bool Return::doReturn(MovieLib &movieLib, const string data) const
     movieData.erase(0, 1);
     cout << "WITHIN DORETURN " << movieData << endl;
 
-    Movie *movie = movieLib.search(movieData);
+    Movie *movie = search(movieData);
 
     if (movie == nullptr)
         return false;
+
+    if (movie->genre == 'C')
+    {
+        Classic *classic = dynamic_cast<Classic *>(movie);
+        classic->addActor(classic->getActor(), 0);
+        movie = classic;
+        return true;
+    }
 
     movie->addStock();
     return true;
